@@ -15,8 +15,7 @@ module.exports = ( f, hasher = JSON.stringify ) ->
     else
       c = cache[hash] = cell()
       # and set it to a Blocking error in the meantime
-      be = new Blocking
-      c be
+      c new Blocking
       # then call the async function and set cell value when it arrives
       args.push (e, r) ->
         if e?
