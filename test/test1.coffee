@@ -18,10 +18,10 @@ describe 'simple blocking', ->
     f1 = blocking say_hello
     f1.should.be.a 'function'
     
-    f2 = blocking.unblock -> f1 'Aldo'
+    f2 = blocking.unblock f1
     f2.should.be.a 'function'
 
-    f2 (e, r) ->
+    f2 'Aldo', (e, r) ->
       should.not.exist e
       r.should.equal 'Hello Aldo'
       done()

@@ -9,10 +9,13 @@ block = ( async_func ) -> ->
   ( mabs.get async_func ).apply null, arguments
 
 unblock = ( func ) ->
-  func = mabs.attach func
+  # we attach the scope to an outer function
+  # in case the passed in function throws a Blocking error itself
+  # otherwise there would be no way to store the memoized version
+  f = mabs.attach -> func.apply null, arguments
   ->
     [args, cb] = util.args_cb arguments
-    rc.stream ( -> func.apply null, args ), (e, r, n, stop) ->
+    rc.stream ( -> f.apply null, args ), (e, r, n, stop) ->
       unless Blocking.instance e
         stop()
         cb? e, r, n
