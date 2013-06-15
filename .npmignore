@@ -1,0 +1,7 @@
+/lib/*.coffee
+.gitignore
+/Makefile
+/test
+/node_modules
+.DS_Store
+npm-debug.log
