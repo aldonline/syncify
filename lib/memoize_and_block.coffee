@@ -1,4 +1,4 @@
-cell      = require 'radioactive-cell'
+cell      = require 'notifying-cell'
 util      = require './util'
 Blocking  = require './Blocking'
 

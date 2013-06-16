@@ -1,4 +1,4 @@
-rc             = require 'reactive-commons'
+notifying      = require 'notifying'
 
 util           = require './util'
 Blocking       = require './Blocking'
@@ -15,7 +15,7 @@ unblock = ( func ) ->
   f = mabs.attach -> func.apply null, arguments
   ->
     [args, cb] = util.args_cb arguments
-    rc.stream ( -> f.apply null, args ), (e, r, n, stop) ->
+    notifying.subscribe ( -> f.apply null, args ), (e, r, n, stop) ->
       unless Blocking.instance e
         stop()
         cb? e, r, n
