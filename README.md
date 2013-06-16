@@ -1,6 +1,9 @@
 # Blocking.js
 Pseudo-Blocking Async Javascript Functions
 
+* Part of the Radioactive Framework
+* [Notifying.js](http://github.com/aldonline/notifying.js) compatible
+
 Installation via NPM
 
     npm install blocking
