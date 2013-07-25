@@ -2,7 +2,7 @@
 Pseudo-Blocking Async Javascript Functions
 
 * Part of the Radioactive Framework
-* [Notifying.js](http://github.com/aldonline/notifying.js) compatible
+* [Reactivity.js](http://github.com/aldonline/reactivity.js) compatible
 
 Installation via NPM
 
@@ -12,16 +12,17 @@ Quickstart
 
     blocking = require 'blocking'
     
-    # create an async function that calls the server
+    # lets assume you have an async function that calls the server
+    # it takes a while to return
     get_name_async = ( id, cb ) -> ...
     
-    # trasnsform to a bocking function
+    # we can transform it to a bocking function
     get_name_sync = blocking get_name_async
     
     # do something using the sync function
     f1 = ->
       # notice that we can call toUpperCase on the value
-      # because this function now returns sychronously
+      # because this function now returns synchronously
       get_name_sync( 8 ).toUpperCase()
     
     # to execute the above function we need to unblock it
@@ -29,9 +30,3 @@ Quickstart
     
     # and the function is not async again
     f1 (err, res) -> console.log err, res
-    
-    
-    
-    
-
-
