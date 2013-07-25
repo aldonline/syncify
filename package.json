@@ -18,9 +18,9 @@
   },
   "repository": "",
   "dependencies": {
-    "stackval": "0.0.1",
     "refmap": "0.0.3",
-    "notifying-cell": "0.0.7",
-    "notifying": "0.0.11"
+    "reactivity": "~1.0.0",
+    "reactive-cell": "0.0.9",
+    "stackval": "~0.1.0"
   }
 }
