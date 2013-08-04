@@ -35,6 +35,14 @@ run_with_callback = ( f, cb ) ->
   catch e
     cb e, null
 
+cast_to_error = ( x ) -> if e instanceof  Error then e else new Error e
+
+get_or_else = ( obj, key, generator ) ->
+  if key of obj
+    v = obj[key]
+  else
+    v = obj[key] = generator()
+
 module.exports =
   arr:     arr
   delay:   delay
@@ -43,6 +51,8 @@ module.exports =
   args_cb: args_cb
   apply:   apply
   run_with_callback: run_with_callback
+  cast_to_error: cast_to_error
+  get_or_else: get_or_else
   require_func: (f) ->
     if ( t = typeof f ) isnt 'function'
       throw new Error "requires a parameter of type 'function', not '#{t}'"
