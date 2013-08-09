@@ -6,7 +6,7 @@
   "main": "lib",
   "scripts": {
     "test": "make test",
-    "build": "coffee -c lib/",
+    "build": "coffee -c lib/index.js",
     "clean": "rm lib/*.js",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
