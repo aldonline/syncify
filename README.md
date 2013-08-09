@@ -2,7 +2,7 @@
 
 Pseudo-Blocking Async Javascript Functions
 
-* Part of the Radioactive Framework
+* Part of the [Radioactive UI Framework](http://github.com/aldonline/radioactive)
 * [Reactivity.js](http://github.com/aldonline/reactivity.js) compatible
 
 Installation via NPM
