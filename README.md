@@ -1,22 +1,23 @@
-# Blocking.js
+# Syncify
+
 Pseudo-Blocking Async Javascript Functions
 
 * Part of the Radioactive Framework
-* [Notifying.js](http://github.com/aldonline/notifying.js) compatible
+* [Reactivity.js](http://github.com/aldonline/reactivity.js) compatible
 
 Installation via NPM
 
-    npm install blocking
+    npm install syncify
 
 Quickstart
 
-    blocking = require 'blocking'
+    syncify = require 'syncify'
     
     # an async function
     get_name_async = ( id, cb ) -> ...
     
     # trasnsform to a blocking/sync function
-    get_name = blocking get_name_async
+    get_name = syncify get_name_async
     
     # do something using the sync function
     f1 = ->
@@ -25,7 +26,7 @@ Quickstart
       get_name( 8 ).toUpperCase()
     
     # to execute the above function we need to unblock it
-    f1 = blocking.unblock f1
+    f1 = syncify.async f1
     
     # and the function is async again
     f1 (err, res) -> console.log err, res
