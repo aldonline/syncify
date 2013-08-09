@@ -10,13 +10,13 @@ f = (cb) -> delay 100, -> cb null, 'foo'
 
 describe 'get', ->
 
-  it 'should return value or fallback to a default when function is blocked', (done) ->
+  it 'should return value or fallback to a default when function is busy', (done) ->
 
-    f1 = blocking.block f
+    f1 = blocking.sync f
 
     f2 = -> blocking.get f1, -> 'bar'
 
-    f3 = blocking.unblock f2
+    f3 = blocking.async f2
 
     f3 (e, r) ->
       if e? then console.log e.stack

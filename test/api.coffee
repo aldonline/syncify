@@ -3,9 +3,9 @@ should = chai.should()
 
 blocking = require '../lib'
 
-public_funcs = 'block unblock blocked get isolate subscribe'
+public_funcs = 'sync async busy get isolate subscribe'
 
-describe 'the blocking.js api', ->
+describe 'the syncify api', ->
   it 'should be a function itself', ->
     blocking.should.be.a 'function'
   

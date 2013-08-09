@@ -1,6 +1,6 @@
-rcell      = require 'reactive-cell'
+rcell     = require 'reactive-cell'
 util      = require './util'
-Blocking  = require './Blocking'
+Busy      = require './Busy'
 
 ###
 GC Warning:
@@ -23,9 +23,9 @@ module.exports = ( async_func, hasher = JSON.stringify ) ->
       # create a new cell for each hash
       # ( which should represent a distinct combination of arguments )
       c = rcell()
-      # and set it to a Blocking error in the meantime
+      # and set it to a Busy error in the meantime
       # to signal any caller that we are busy working
-      c new Blocking
+      c new Busy
       # lets call the async function and set cell value when it arrives
       util.apply async_func, args, c.callback
       c

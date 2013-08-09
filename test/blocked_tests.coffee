@@ -9,20 +9,20 @@ blocking = require '../lib'
 f = (cb) -> delay 100, -> cb null, 'foo'
 
 
-describe 'blocked', ->
+describe 'busy', ->
 
   it 'should return true when a blocked function is still blocking', ( done ) ->
 
     # F1 is a blocking version of F ( it is now sync )
-    f1 = blocking.block f
+    f1 = blocking.sync f
 
     # F2 is a sync reactive function that tells us whether F1
     # is still blocked or not
-    f2 = -> blocking.blocked f1
+    f2 = -> blocking.busy f1
 
     # We unblock F2 so we can call it outside of an evaluation scope
     # it is now a normal async function that takes a callback
-    f3 = blocking.unblock f2
+    f3 = blocking.async f2
 
     # execute F3 for the first time
     # as soon as we do this, F2 will start its execution

@@ -14,7 +14,7 @@ describe 'subscribe', ->
 
     num = rcell()
 
-    tt = blocking.block times_two_async
+    tt = blocking.sync times_two_async
     func = -> tt num()
 
     inputs = [ 2, 3 ]

@@ -1,7 +1,7 @@
 reactivity      = require 'reactivity'
 
 util           = require './util'
-Blocking       = require './Blocking'
+Busy           = require './Busy'
 mab            = require './memoize_and_block'
 mabs           = require './memoize_and_block_scope'
 
@@ -35,7 +35,7 @@ f (err, res, monitor) -> console.log res
 unblock = ( func ) -> ->
   [args, cb] = util.args_cb arguments
   reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
-    unless Blocking.instance e
+    unless Busy.instance e
       stopper()
       cb? e, r, monitor
   undefined
@@ -48,7 +48,7 @@ blocked = ( f ) ->
     f()
     false
   catch e
-    if Blocking.instance e
+    if Busy.instance e
       true
     else
       throw e
@@ -67,15 +67,15 @@ get = ( f, v ) ->
 
 subscribe = ( func, cb ) ->
   reactivity.subscribe func, (e, r, m, s) ->
-    unless Blocking.instance e
+    unless Busy.instance e
       cb e, r, m, s
 
 
 # exports
 x = module.exports = block
-x.block       = block
-x.unblock     = unblock
-x.blocked     = blocked
+x.sync        = block
+x.async       = unblock
+x.busy        = blocked
 x.isolate     = isolate
 x.get         = get
 x.subscribe   = subscribe
