@@ -37,11 +37,7 @@ run_with_callback = ( f, cb ) ->
 
 cast_to_error = ( x ) -> if e instanceof  Error then e else new Error e
 
-get_or_else = ( obj, key, generator ) ->
-  if key of obj
-    v = obj[key]
-  else
-    v = obj[key] = generator()
+get_or_else = ( obj, key, generator ) -> if key of obj then obj[key] else ( obj[key] = generator() )
 
 module.exports =
   arr:     arr
@@ -58,7 +54,7 @@ module.exports =
       throw new Error "requires a parameter of type 'function', not '#{t}'"
 
   # handy func for quick tests
-  say_hello_delayed: ( name, cb ) -> delay 100, -> cb null, "Hello #{name}!"
+  say_hello_delayed: ( name, cb ) -> delay 100, -> cb? null, "Hello #{name}"
 
   log: -> console.log.apply null, arguments
 

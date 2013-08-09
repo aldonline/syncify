@@ -9,14 +9,14 @@ blocking = require '../lib'
 f = (cb) -> delay 100, -> cb null, 'foo'
 
 
-describe 'blocked', (done) ->
+describe 'blocked', ->
 
-  it 'should return true when a blocked function is still blocking', ->
+  it 'should return true when a blocked function is still blocking', ( done ) ->
 
     # F1 is a blocking version of F ( it is now sync )
     f1 = blocking.block f
 
-    # F2 is a sync function that tells us whether F1
+    # F2 is a sync reactive function that tells us whether F1
     # is still blocked or not
     f2 = -> blocking.blocked f1
 
@@ -35,6 +35,7 @@ describe 'blocked', (done) ->
       delay 200, ->
         # we wait 200ms, which should be enough time
         # for F2 to finish working
+        # and call F3 again
         f3 (e, r) ->
           if e? then console.log e.stack # debug visually
           should.not.exist e

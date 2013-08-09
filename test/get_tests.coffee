@@ -8,10 +8,9 @@ blocking = require '../lib'
 
 f = (cb) -> delay 100, -> cb null, 'foo'
 
+describe 'get', ->
 
-describe 'get', (done) ->
-
-  it 'should return value or fallback to a default when function is blocked', ->
+  it 'should return value or fallback to a default when function is blocked', (done) ->
 
     f1 = blocking.block f
 

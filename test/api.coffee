@@ -3,7 +3,7 @@ should = chai.should()
 
 blocking = require '../lib'
 
-public_funcs = 'block unblock blocked get'
+public_funcs = 'block unblock blocked get isolate subscribe'
 
 describe 'the blocking.js api', ->
   it 'should be a function itself', ->

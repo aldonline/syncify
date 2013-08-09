@@ -5,9 +5,9 @@ should = chai.should()
 util = require '../lib/util'
 blocking = require '../lib'
 
-describe 'block', (done) ->
+describe 'block', ->
 
-  it 'should block an async function', ->
+  it 'should block an async function', (done) ->
 
     f1 = blocking.block util.say_hello_delayed
     f1.should.be.a 'function'
@@ -17,16 +17,13 @@ describe 'block', (done) ->
     f2.should.be.a 'function'
 
     f2 'Aldo', (e, r) ->
-      console.log 'after'
       if e?
         console.log e.stack
       should.not.exist e
       r.should.equal 'Hello Aldo'
       done()
 
-
-describe 'block', (done) ->
-  it 'should block and unblock combined functions', ->
+  it 'should block and unblock combined functions', (done) ->
     f1 = blocking.block util.say_hello_delayed
 
     f2 = (message) -> f1('Aldo') + ', ' + f1('Bob') + ' ' + message
@@ -37,16 +34,15 @@ describe 'block', (done) ->
       if e?
         console.log e.stack
       should.not.exist e
-      r.should.equal 'Hello Aldo, Hello Bob how are you'
-      done()      
+      r.should.equal 'Hello Aldo, Hello Bob how are you'    
 
-    f4 = (message) -> f2(message).toUpperCase()
+      f4 = (message) -> f2(message).toUpperCase()
 
-    f5 = blocking.unblock f4
+      f5 = blocking.unblock f4
 
-    f5 'how are you', (e, r) ->
-      if e?
-        console.log e.stack
-      should.not.exist e
-      r.should.equal 'Hello Aldo, Hello Bob how are you'.toUpperCase()
-      done()      
+      f5 'how are you', (e, r) ->
+        if e?
+          console.log e.stack
+        should.not.exist e
+        r.should.equal 'Hello Aldo, Hello Bob how are you'.toUpperCase()
+        done()      

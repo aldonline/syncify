@@ -21,6 +21,6 @@
     "refmap": "0.0.3",
     "stackval": "~0.1.0",
     "reactive-cell": "~0.1.1",
-    "reactivity": "~1.2.1"
+    "reactivity": "~1.2.2"
   }
 }

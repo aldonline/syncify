@@ -6,37 +6,39 @@ mab            = require './memoize_and_block'
 mabs           = require './memoize_and_block_scope'
 
 ###
-Combinator
+Combinator that transforms a an async function into a pseudo-blocking service.
 ###
 block = ( async_func, hasher = JSON.stringify ) ->
   # we ( lazily ) create a global blocked version of this function
-  # this is the outmost scope
-  global_mab_f = null
-  gm = ->
-    # initialize global blocked version
-    global_mab_f ?= mab async_func, hasher
-    global_mab_f
-  ->
+  # this is the outmost scope and is what you end up using
+  # unless you explicitly isolate the stack
+  global_f = null
+  resolve = ->
     if mabs.defined()
-      # run this in a specific context
-      # there is one blocked version of this function
-      # per context
-      ( mabs.get async_func, hasher ).apply null, arguments
+      # run this in a specific context. there is one service per context
+      mabs.get async_func, hasher
     else
-      # no context. use the global function
-      gm().apply null, arguments
+      # no context. use the global service
+      global_f ?= mab async_func, hasher
 
-unblock = ( func ) ->
-  # we attach the scope to an outer function
-  # in case the passed in function throws a Blocking error itself
-  # otherwise there would be no way to store the memoized version
-  f = mabs.attach -> func.apply null, arguments
-  ->
-    [args, cb] = util.args_cb arguments
-    reactivity.subscribe ( -> f.apply null, args ), (e, r, m) ->
-      unless Blocking.instance e
-        m.destroy()
-        cb? e, r, m
+  f = -> resolve().apply null, arguments
+  f.reset = -> resolve().reset()
+  f
+
+
+isolate = ( blocked_service ) -> mabs.attach blocked_service
+
+###
+f = unblock f
+f (err, res, monitor) -> console.log res
+###
+unblock = ( func ) -> ->
+  [args, cb] = util.args_cb arguments
+  reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
+    unless Blocking.instance e
+      stopper()
+      cb? e, r, monitor
+  undefined
 
 ###
 tests to see whether a function is blocked ( working )
@@ -54,7 +56,7 @@ blocked = ( f ) ->
 # gets the result of executing F.
 # if F is blocked it will then return V
 # ( if V is a function it will execute V )
-# could be called get_or_else() but its too long
+# could be called get_or_else() but that's too long
 get = ( f, v ) ->
   result = undefined
   if ( blocked -> result = f() )
@@ -62,9 +64,18 @@ get = ( f, v ) ->
   else
     result
 
+
+subscribe = ( func, cb ) ->
+  reactivity.subscribe func, (e, r, m, s) ->
+    unless Blocking.instance e
+      cb e, r, m, s
+
+
 # exports
 x = module.exports = block
 x.block       = block
 x.unblock     = unblock
 x.blocked     = blocked
+x.isolate     = isolate
 x.get         = get
+x.subscribe   = subscribe
