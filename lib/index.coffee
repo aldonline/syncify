@@ -71,8 +71,16 @@ subscribe = ( func, cb ) ->
       cb e, r, m, s
 
 
+# overloaded main
+main = ( x, y ) ->
+  switch typeof x + ' ' + typeof y
+    when 'function undefined'  then block x
+    when 'function function'   then subscribe x, y
+    else throw new Error 'Invalid Arguments'
+
+
 # exports
-x = module.exports = block
+x = module.exports = main
 x.sync        = block
 x.async       = unblock
 x.busy        = blocked
