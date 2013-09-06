@@ -15,7 +15,7 @@ describe 'a syncified function with global scope', ->
   y = 'red'
   # (x) is in a local scope
   # this way we can combine both
-  x_is_y = (x, cb) -> delay 100, -> cb null, "#{x} is #{y}"  
+  x_is_y = (x, cb) -> delay 10, -> cb null, "#{x} is #{y}"  
   # lets sync'ify it
   x_is_y__global = X x_is_y, global: yes
 

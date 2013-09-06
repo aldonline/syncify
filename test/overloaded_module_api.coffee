@@ -6,7 +6,7 @@ blocking   = require '../lib'
 rcell      = require 'reactive-cell'
 
 delay = -> setTimeout arguments[1], arguments[0]
-times_two_async = ( num, cb ) -> delay 100, -> cb null, num * 2
+times_two_async = ( num, cb ) -> delay 10, -> cb null, num * 2
 
 describe 'the overloaded api', ->
 

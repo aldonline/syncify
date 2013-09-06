@@ -6,7 +6,7 @@ should = chai.should()
 blocking = require '../lib'
 
 
-f = (cb) -> delay 100, -> cb null, 'foo'
+f = (cb) -> delay 10, -> cb null, 'foo'
 
 describe 'get', ->
 
@@ -23,7 +23,7 @@ describe 'get', ->
       should.not.exist e
       r.should.equal 'bar'
 
-      delay 200, ->
+      delay 20, ->
 
         f3 (e, r) ->
           if e? then console.log e.stack

@@ -6,7 +6,7 @@ should = chai.should()
 blocking = require '../lib'
 
 # F is a function that takes 100MS to reply 'foo'
-f = (cb) -> delay 100, -> cb null, 'foo'
+f = (cb) -> delay 10, -> cb null, 'foo'
 
 
 describe 'busy', ->
@@ -32,7 +32,7 @@ describe 'busy', ->
       should.not.exist e
       # thus the result of blocking is true
       r.should.equal yes
-      delay 200, ->
+      delay 20, ->
         # we wait 200ms, which should be enough time
         # for F2 to finish working
         # and call F3 again
