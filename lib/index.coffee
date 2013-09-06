@@ -5,28 +5,30 @@ Busy           = require './Busy'
 mab            = require './memoize_and_block'
 mabs           = require './memoize_and_block_scope'
 
+
 ###
-Combinator that transforms a an async function into a pseudo-blocking service.
+options =
+  global: no
+  hasher: JSON.stringify
 ###
-block = ( async_func, hasher = JSON.stringify ) ->
-  # we ( lazily ) create a global blocked version of this function
-  # this is the outmost scope and is what you end up using
-  # unless you explicitly isolate the stack
+block = ( async_func, opts = undefined ) ->
+  global  = opts?.global is true
+  hasher  = ( opts?.hasher or JSON.stringify )
+
   global_f = null
   resolve = ->
-    if mabs.defined()
+    if global
+      global_f ?= mab async_func, hasher
+    else if mabs.defined()
       # run this in a specific context. there is one service per context
       mabs.get async_func, hasher
     else
-      # no context. use the global service
-      global_f ?= mab async_func, hasher
-
+      throw new Error 'no context'
   f = -> resolve().apply null, arguments
   f.reset = -> resolve().reset()
   f
 
-
-isolate = ( blocked_service ) -> mabs.attach blocked_service
+# isolate = ( blocked_service ) -> mabs.attach blocked_service
 
 ###
 f = unblock f
@@ -34,6 +36,7 @@ f (err, res, monitor) -> console.log res
 ###
 unblock = ( func ) -> ->
   [args, cb] = util.args_cb arguments
+  func = mabs.attach func
   reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
     unless Busy.instance e
       stopper()
@@ -66,6 +69,7 @@ get = ( f, v ) ->
 
 
 subscribe = ( func, cb ) ->
+  func = mabs.attach func
   reactivity.subscribe func, (e, r, m, s) ->
     unless Busy.instance e
       cb e, r, m, s
@@ -76,6 +80,8 @@ main = ( x, y ) ->
   switch typeof x + ' ' + typeof y
     when 'function undefined'  then block x
     when 'function function'   then subscribe x, y
+    when 'object function'     then block y, x
+    when 'function object'     then block x, y
     else throw new Error 'Invalid Arguments'
 
 
@@ -84,6 +90,5 @@ x = module.exports = main
 x.sync        = block
 x.async       = unblock
 x.busy        = blocked
-x.isolate     = isolate
 x.get         = get
 x.subscribe   = subscribe
