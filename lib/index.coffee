@@ -37,7 +37,7 @@ f (err, res, monitor) -> console.log res
 unblock = ( func ) -> ->
   [args, cb] = util.args_cb arguments
   func = mabs.attach func
-  reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
+  reactivity ( -> func.apply null, args ), (e, r, monitor, stopper) ->
     unless Busy.instance e
       stopper()
       cb? e, r, monitor
@@ -69,8 +69,7 @@ get = ( f, v ) ->
 
 
 subscribe = ( func, cb ) ->
-  func = mabs.attach func
-  reactivity.subscribe func, (e, r, m, s) ->
+  reactivity mabs.attach(func), (e, r, m, s) ->
     unless Busy.instance e
       cb e, r, m, s
 
