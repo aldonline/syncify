@@ -14,21 +14,21 @@ options =
 block = ( async_func, opts = undefined ) ->
   global  = opts?.global is true
   hasher  = ( opts?.hasher or JSON.stringify )
+  if global
+    block_global async_func, hasher
+  else
+    block_local async_func, hasher
 
-  global_f = null
-  resolve = ->
-    if global
-      global_f ?= mab async_func, hasher
-    else if mabs.defined()
-      # run this in a specific context. there is one service per context
-      mabs.get async_func, hasher
+block_local = ( async_func, hasher ) ->
+  ->
+    # we look for a local scope up the stack
+    if mabs.defined()
+      func = mabs.get_or_create async_func, hasher
+      func.apply null, arguments
     else
-      throw new Error 'no context'
-  f = -> resolve().apply null, arguments
-  f.reset = -> resolve().reset()
-  f
+      throw new Error 'local syncified function with no parent context'
 
-# isolate = ( blocked_service ) -> mabs.attach blocked_service
+block_global = ( async_func, hasher ) -> mab async_func, hasher
 
 ###
 f = unblock f
@@ -67,12 +67,16 @@ get = ( f, v ) ->
   else
     result
 
-
 subscribe = ( func, cb ) ->
-  reactivity mabs.attach(func), (e, r, m, s) ->
-    unless Busy.instance e
-      cb e, r, m, s
-
+  stopped = no
+  stopper = -> stopped = yes
+  do iter = ->
+    unless stopped
+      unblock(func) (e, r, m) ->
+        unless stopped      
+          m?.on 'change', iter
+          cb? e, r, m, stopper
+  stopper
 
 # overloaded main
 main = ( x, y ) ->

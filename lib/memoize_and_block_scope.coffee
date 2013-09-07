@@ -1,19 +1,10 @@
-refmap      = require 'refmap'
-stackval    = require 'stackval'
+stack_refmap = require './stack_refmap'
+mab          = require './memoize_and_block'
 
-mab         = require './memoize_and_block'
-
-st = stackval()
+sr = stack_refmap()
 
 module.exports =
-  attach: ( func ) ->
-    m = refmap()
-    st func, -> m
-  get: ( async_func, hasher = JSON.stringify ) ->
-    # get the upstack refmap if present
-    m = st()
-    unless m?
-      throw new Error 'You must run this inside an unblock() context'
-    m.get_or_else async_func, -> mab async_func, hasher
-  # is there a refmap defined upstack?
-  defined: -> st.defined()
+  attach: ( func ) -> sr.attach func
+  get_or_create: ( async_func, hasher = JSON.stringify ) ->
+    sr.get_or_else async_func, -> mab async_func, hasher
+  defined: -> sr.defined()

@@ -23,6 +23,8 @@ describe 'subscribe', ->
     do next = -> num inputs.shift()
 
     blocking.subscribe func, (e, r, m, s) ->
+      if e? then console.log e.stack
+      should.not.exist e
       r.should.equal outputs.shift()
       if outputs.length is 0
         s()

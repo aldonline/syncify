@@ -5,9 +5,7 @@ should = chai.should()
 {delay} = require '../lib/util'
 blocking = require '../lib'
 
-# F is a function that takes 100MS to reply 'foo'
 f = (cb) -> delay 10, -> cb null, 'foo'
-
 
 describe 'busy', ->
 

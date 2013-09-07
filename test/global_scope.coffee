@@ -6,9 +6,6 @@ should = chai.should()
 X = require '../lib'
 
 
-###
-These tests run in order
-###
 describe 'a syncified function with global scope', ->
   
   # this variable (y) is outside

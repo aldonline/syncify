@@ -14,10 +14,6 @@ uc = X ( str, cb ) -> delay 10, -> cb null, str.toUpperCase()
 get_name = X ( id, cb ) -> delay 10, -> cb null, people[id]
 get_name_uc = (id) -> uc get_name id
 
-###
-The testing strategy is the following.
-We create two
-###
 describe 'a syncified function with local scope', ->
   
   it 'should retain its value during the lifecycle of a stack', (done) ->

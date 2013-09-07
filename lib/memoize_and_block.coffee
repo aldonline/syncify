@@ -3,13 +3,9 @@ util      = require './util'
 Busy      = require './Busy'
 
 ###
-GC Warning:
-The memoized version of the function will store results indefinitely
-in its internal cache.
-This won't be problem if you're scoping function instances properly
-and let the native GC take care of disposing it.
 
-You can call F.reset() to clear the cache.
+Returns a function that has an internal cache.
+
 
 @async_func an async function ( that takes a node-style callback )
 @hasher an optional function that must return a string
