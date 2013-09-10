@@ -9,6 +9,7 @@ delay     = -> setTimeout arguments[1], arguments[0]
 serial = 0
 say_hello = ( cb ) -> delay 10, -> cb null, 'hello ' + serial++
 
+
 describe 'global + subscribe + reset', ->
   it 'should work', (done) ->
     
@@ -34,4 +35,4 @@ describe 'global + subscribe + reset', ->
         results[0][1].should.equal 'hello 0'
         results[1][1].should.equal 'hello 1'
 
-      done()
+        done()
