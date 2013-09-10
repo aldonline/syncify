@@ -25,7 +25,10 @@ module.exports = ( async_func, hasher = JSON.stringify ) ->
       # lets call the async function and set cell value when it arrives
       util.apply async_func, args, c.callback
       c
+  blocked_f.reset = ->
+    old_cache = cache
+    cache = {} # empty cache ( next time a request is made it will be forced to fetch the result once again )
+    for own k, cell of old_cache
+      cell cell() + '.' # change value to force an invalidation
 
-  # delete the cache
-  blocked_f.reset = -> cache = {}
   blocked_f
