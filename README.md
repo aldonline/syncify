@@ -44,7 +44,7 @@ function getFullNameAsync( id, callback ){
 
 ```
 
-But any normal programmer can come up with the real answer:
+But any normal programmer can come up with a working answer:
 
 ```javascript
 function getFullNameAsync( id, callback ){ 
@@ -102,7 +102,6 @@ getFullNameAsync( "aldo", function(err, res){
 
 * Functions must be idempotent
 * Their arguments must be JSON serializable
-
 
 # Usage
 
