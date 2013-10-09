@@ -98,6 +98,11 @@ getFullNameAsync( "aldo", function(err, res){
 
 ```
 
+# WARNING
+
+* Functions must be idempotent
+* Their arguments must be JSON serializable
+
 
 # Usage
 
