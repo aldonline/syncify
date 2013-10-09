@@ -11,7 +11,96 @@ Installation via NPM
 npm install syncify
 ```
 
-Quickstart
+
+
+
+# Problem
+
+```javascript
+// we have these two functions that go to the server
+// and fetch some data
+function getNameAsync( id, callback ){ ... }
+function getLastnameAsync( id, callback ){ ... }
+
+// we want to create a third function
+function getFullNameAsync( id, callback ){ ... }
+
+```
+
+A naive attempt would be:
+```javascript
+function getFullNameAsync( id, callback ){ 
+  return getNameAsync(id) + " " + getLastnameAsync(id)
+}
+
+```
+
+Or maybe:
+
+```javascript
+function getFullNameAsync( id, callback ){ 
+  callback(  getNameAsync(id) + " " + getLastnameAsync(id) )
+}
+
+```
+
+But any normal programmer can come up with the real answer:
+
+```javascript
+function getFullNameAsync( id, callback ){ 
+  getNameAsync( id, function(err, name){
+    getLastnameAsync( id, function( err, lastname ){
+      callback( name + " " + lastname )
+    })
+  })
+}
+```
+
+Which is of course horrible, but still short compared to a more complete solution with 
+proper error handling/propagation.
+
+```javascript
+function getFullNameAsync( id, callback ){ 
+  getNameAsync( id, function(err, name){
+    if ( err != null )
+      return callback(err)
+    getLastnameAsync( id, function( err, lastname ){
+      if ( err != null )
+        return callback(err)
+      callback( name + " " + lastname )
+    })
+  })
+}
+```
+
+
+# Solution
+
+Syncify allows you to temporarily bring async functions into the sync world so you
+can forget about...
+
+```javascript
+
+// transform async functions to their sync counterparts
+var getName = syncify getNameAsync
+var getLastname = syncify getLastnameAsync
+
+function getFullName(id){
+  return getName(id) + " " + getLastname(id)
+}
+
+// bring them back to the async world
+var getFullNameAsync = syncify.revert getFullName
+
+getFullNameAsync( "aldo", function(err, res){
+  console.log( res ) // 'Aldo Bucchi'
+})
+
+```
+
+
+# Usage
+
 
 ```coffeescript
 syncify = require 'syncify'
