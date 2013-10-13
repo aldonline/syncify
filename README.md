@@ -16,18 +16,21 @@ npm install syncify
 
 # Problem
 
+We have these two functions that go to the server and fetch some data
+
 ```javascript
-// we have these two functions that go to the server
-// and fetch some data
 function getNameAsync( id, callback ){ ... }
 function getLastnameAsync( id, callback ){ ... }
+```
 
-// we want to create a third function
+We want to create a third function that combines them
+
+```javascript
 function getFullNameAsync( id, callback ){ ... }
-
 ```
 
 A naive attempt would be:
+
 ```javascript
 function getFullNameAsync( id, callback ){ 
   return getNameAsync(id) + " " + getLastnameAsync(id)
@@ -41,10 +44,10 @@ Or maybe:
 function getFullNameAsync( id, callback ){ 
   callback(  getNameAsync(id) + " " + getLastnameAsync(id) )
 }
-
 ```
 
-But any normal programmer can come up with a working answer:
+But of course those won't work. Because async functions are a b**ch.
+You'd have to do something like this.
 
 ```javascript
 function getFullNameAsync( id, callback ){ 
@@ -73,11 +76,16 @@ function getFullNameAsync( id, callback ){
 }
 ```
 
+Now. There are many libraries that deal with this ( async comes to mind ).
 
-# Solution
+But Syncify takes a radically different approach:
 
-Syncify allows you to temporarily bring async functions into the sync world so you
-can forget about...
+# The Syncify Way
+
+In a nutshell, Syncify allows you to temporarily bring async functions into the sync world so you
+can completely forget about asynchronicity and focus on solving your problem using clean imperative code.
+
+This is how you would go about solving the problem using the Syncify way.
 
 ```javascript
 
@@ -103,27 +111,3 @@ getFullNameAsync( "aldo", function(err, res){
 * Functions must be idempotent
 * Their arguments must be JSON serializable
 
-# Usage
-
-
-```coffeescript
-syncify = require 'syncify'
-
-# an async function
-get_name_async = ( id, cb ) -> ...
-
-# trasnsform to a blocking/sync function
-get_name = syncify get_name_async
-
-# do something using the sync function
-f1 = ->
-  # notice that we can call toUpperCase on the value
-  # because this function now returns sychronously
-  get_name( 8 ).toUpperCase()
-
-# to execute the above function we need to unblock it
-f1 = syncify.async f1
-
-# and the function is async again
-f1 (err, res) -> console.log err, res
-```
