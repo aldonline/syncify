@@ -1,6 +1,6 @@
 # Syncify
 
-Pseudo-Blocking Async Javascript Functions
+A radically simpler way to deal with asynchronous functions in javascript
 
 * Part of the [Radioactive UI Framework](http://github.com/aldonline/radioactive)
 * [Reactivity.js](http://github.com/aldonline/reactivity) compatible
@@ -10,9 +10,6 @@ Installation via NPM
 ```shell
 npm install syncify
 ```
-
-
-
 
 # Problem
 
@@ -76,16 +73,16 @@ function getFullNameAsync( id, callback ){
 }
 ```
 
-Now. There are many libraries that deal with this ( async comes to mind ).
+Now. There are many libraries that deal with this ( [async](https://github.com/caolan/async) comes to mind ).
 
 But Syncify takes a radically different approach:
 
 # The Syncify Way
 
-In a nutshell, Syncify allows you to temporarily bring async functions into the sync world so you
-can completely forget about asynchronicity and focus on solving your problem using clean imperative code.
+In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
+can focus on solving your problem using clean, imperative code.
 
-This is how you would go about solving the problem using the Syncify way.
+This is how you would go about solving the problem "the Syncify way".
 
 ```javascript
 
@@ -100,13 +97,16 @@ function getFullName(id){
 // bring them back to the async world
 var getFullNameAsync = syncify.revert getFullName
 
+// you can now use them as if they were synchronous
 getFullNameAsync( "aldo", function(err, res){
   console.log( res ) // 'Aldo Bucchi'
 })
 
 ```
 
-# WARNING
+That's all there is to it.
+
+# Caveats
 
 * Functions must be idempotent
 * Their arguments must be JSON serializable
