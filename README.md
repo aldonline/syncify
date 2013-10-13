@@ -2,14 +2,32 @@
 
 A radically simpler way to deal with asynchronous functions in javascript
 
+## Quickstart
+
+### Get the code
+
+#### Using NPM
+
+```shell
+npm install syncify
+```
+
+#### Load Javascript on the browser
+
+This library depends on reactivity.js
+
+TODO...
+
+
+### Use it
+
+
+
 * Part of the [Radioactive UI Framework](http://github.com/aldonline/radioactive)
 * [Reactivity.js](http://github.com/aldonline/reactivity) compatible
 
 Installation via NPM
 
-```shell
-npm install syncify
-```
 
 # Problem
 
