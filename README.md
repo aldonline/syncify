@@ -80,11 +80,13 @@ proper error handling/propagation.
 ```javascript
 function getFullNameAsync( id, callback ){ 
   getNameAsync( id, function(err, name){
-    if ( err != null )
+    if ( err != null ) {
       return callback(err)
+    }
     getLastnameAsync( id, function( err, lastname ){
-      if ( err != null )
+      if ( err != null) {
         return callback(err)
+      }
       callback( name + " " + lastname )
     })
   })
