@@ -1,6 +1,50 @@
 # Syncify
 
-A radically simpler way to deal with asynchronous functions in javascript
+In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
+can focus on solving your problem using clean, imperative code. Here's a quick example of what it looks like:
+
+```javascript
+
+// we have three async functions that go to the server and fetch some data
+function getFriendIdsFromServer( id, cb ){ ... }
+function getFirstNameFromServer( id, cb ){ ... }
+function getLastNameFromServer( id, cb ){ ... }
+
+// we want to create a function that combines them all
+function getFriendNamesFromServer( cb ){ ... }
+
+// we don't want to work with callbacks
+// so we temporarily "syncify" these async functions
+// ( we temporarily bring them to the sync world using black magic )
+var  getFriendIds = syncify getFriendIdsFromServer
+var  getFirstName = syncify getFirstNameFromServer
+var  getLastName  = syncify getLastNameFromServer
+
+// and we can now combine them using clean, synchronous imperative code
+function getFriendNames( id, cb ){
+  var names = [];
+  var friendIds = getFriendIds( id );
+  for ( var i=0; i<friendIds.length; i++ ){
+    var id = friendIds[i];
+    names.push( getFirstName( id ) + " " + getLastName( id ) );
+  }
+  return names;
+}
+
+// now that we have our combined function
+// we need to bring it back to the async world
+// in order to call it
+
+var getFriendNamesFromServer = syncify.async getFriendNames
+
+// voila!
+getFriendNamesFromServer( 78, function( err, names ){
+  console.log( names.join( ", " ) );
+})
+
+
+```
+
 
 ## Quickstart
 
@@ -16,18 +60,9 @@ npm install syncify
 
 This library depends on reactivity.js
 
-TODO...
-
+TODO... JS Bundle coming up soon.
 
 ### Use it
-
-
-
-* Part of the [Radioactive UI Framework](http://github.com/aldonline/radioactive)
-* [Reactivity.js](http://github.com/aldonline/reactivity) compatible
-
-Installation via NPM
-
 
 # Problem
 
