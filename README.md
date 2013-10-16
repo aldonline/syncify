@@ -14,7 +14,7 @@ function getLastNameFromServer( id, cb ){ ... }
 function getFriendNamesFromServer( cb ){ ... }
 
 // we don't want to work with callbacks
-// so we temporarily "syncify" these async functions
+// so we "syncify" these async functions
 // ( we temporarily bring them to the sync world using black magic )
 var  getFriendIds = syncify getFriendIdsFromServer
 var  getFirstName = syncify getFirstNameFromServer
@@ -26,6 +26,7 @@ function getFriendNames( id, cb ){
   var friendIds = getFriendIds( id );
   for ( var i=0; i<friendIds.length; i++ ){
     var id = friendIds[i];
+    // look mom. no callbacks!
     names.push( getFirstName( id ) + " " + getLastName( id ) );
   }
   return names;
@@ -34,10 +35,10 @@ function getFriendNames( id, cb ){
 // now that we have our combined function
 // we need to bring it back to the async world
 // in order to call it
-
 var getFriendNamesFromServer = syncify.async getFriendNames
 
 // voila!
+// we can call our combined function
 getFriendNamesFromServer( 78, function( err, names ){
   console.log( names.join( ", " ) );
 })
