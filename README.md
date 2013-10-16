@@ -1,4 +1,4 @@
-# Syncify
+# Syncify.js
 
 In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
 can focus on solving your problem using clean, imperative code. Here's a quick example of what it looks like:
