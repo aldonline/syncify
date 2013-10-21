@@ -88,10 +88,17 @@ main = ( x, y ) ->
     else throw new Error 'Invalid Arguments'
 
 
-# exports
-x = module.exports = main
-x.sync        = block
-x.async       = unblock
-x.busy        = blocked
-x.get         = get
-x.subscribe   = subscribe
+# Common.js exports
+if module? and module.exports?
+  x = module.exports = main
+  x.sync        = block
+  x.async       = unblock
+  x.busy        = blocked
+  x.get         = get
+  x.subscribe   = subscribe
+
+# Browser exports
+if window?
+  window.syncify = main
+
+
