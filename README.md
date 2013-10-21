@@ -59,9 +59,7 @@ npm install syncify
 
 #### Load Javascript on the browser
 
-This library depends on reactivity.js
-
-TODO... JS Bundle coming up soon.
+Take a look at the `/build` folder
 
 # Caveats
 
