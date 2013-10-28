@@ -1,4 +1,3 @@
-/lib/*.coffee
 .gitignore
 /Makefile
 /test
