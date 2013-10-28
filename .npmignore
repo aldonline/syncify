@@ -4,5 +4,6 @@
 /test
 /build
 /node_modules
+/src
 .DS_Store
 npm-debug.log
