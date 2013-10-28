@@ -93,6 +93,7 @@ if module? and module.exports?
   x = module.exports = main
   x.sync        = block
   x.async       = unblock
+  x.revert      = unblock
   x.busy        = blocked
   x.get         = get
   x.subscribe   = subscribe
