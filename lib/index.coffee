@@ -80,12 +80,19 @@ subscribe = ( func, cb ) ->
 
 # overloaded main
 main = ( x, y ) ->
-  switch typeof x + ' ' + typeof y
-    when 'function undefined'  then block x
-    when 'function function'   then subscribe x, y
-    when 'object function'     then block y, x
-    when 'function object'     then block x, y
-    else throw new Error 'Invalid Arguments'
+  # syncify syncified_func, arguments, callback
+  # this is a very common usecase
+  if arguments.length is 3
+    [func, args, cb] = arguments
+    args.push cb
+    unblock( func ).apply null, args
+  else
+    switch typeof x + ' ' + typeof y
+      when 'function undefined'  then block x
+      when 'function function'   then subscribe x, y
+      when 'object function'     then block y, x
+      when 'function object'     then block x, y
+      else throw new Error 'Invalid Arguments'
 
 
 # Common.js exports
