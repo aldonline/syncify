@@ -35,7 +35,7 @@ function getFriendNames( id, cb ){
 // now that we have our combined function
 // we need to bring it back to the async world
 // in order to call it
-var getFriendNamesFromServer = syncify.async getFriendNames
+var getFriendNamesFromServer = syncify.async( getFriendNames )
 
 // voila!
 // we can call our combined function
