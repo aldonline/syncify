@@ -16,9 +16,9 @@ function getFriendNamesFromServer( cb ){ ... }
 // we don't want to work with callbacks
 // so we "syncify" these async functions
 // ( we temporarily bring them to the sync world using black magic )
-var  getFriendIds = syncify getFriendIdsFromServer
-var  getFirstName = syncify getFirstNameFromServer
-var  getLastName  = syncify getLastNameFromServer
+var  getFriendIds = syncify( getFriendIdsFromServer )
+var  getFirstName = syncify(  getFirstNameFromServer )
+var  getLastName  = syncify(  getLastNameFromServer )
 
 // and we can now combine them using clean, synchronous imperative code
 function getFriendNames( id, cb ){
