@@ -21,7 +21,7 @@ var  getFirstName = syncify(  getFirstNameFromServer )
 var  getLastName  = syncify(  getLastNameFromServer )
 
 // and we can now combine them using clean, synchronous imperative code
-function getFriendNames( id, cb ){
+function getFriendNames( id ){
   var names = [];
   var friendIds = getFriendIds( id );
   for ( var i=0; i<friendIds.length; i++ ){
