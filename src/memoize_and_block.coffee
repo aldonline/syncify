@@ -1,6 +1,6 @@
-rcell     = require 'reactive-cell'
-util      = require './util'
-Busy      = require './Busy'
+util       = require './util'
+Busy       = require './Busy'
+reactivity = require 'reactivity'
 
 ###
 
@@ -18,12 +18,12 @@ module.exports = ( async_func, hasher = JSON.stringify ) ->
     do cache[ hasher args ] ?= do ->
       # create a new cell for each hash
       # ( which should represent a distinct combination of arguments )
-      c = rcell()
       # and set it to a Busy error in the meantime
       # to signal any caller that we are busy working
-      c new Busy
+      c = reactivity new Busy
+
       # lets call the async function and set cell value when it arrives
-      util.apply async_func, args, c.callback
+      util.apply async_func, args, (e, r) -> if e? then c e else c r
       c
   blocked_f.reset = ->
     old_cache = cache

@@ -2,8 +2,8 @@ chai = require 'chai'
 
 should = chai.should()
 
-blocking   = require '../lib'
-rcell      = require 'reactive-cell'
+blocking    = require '../lib'
+reactivity  = require 'reactivity'
 
 delay = -> setTimeout arguments[1], arguments[0]
 times_two_async = ( num, cb ) -> delay 10, -> cb null, num * 2
@@ -12,7 +12,7 @@ describe 'subscribe', ->
 
   it 'should work', (done) ->
 
-    num = rcell()
+    num = reactivity()
 
     tt = blocking.sync times_two_async
     func = -> tt num()

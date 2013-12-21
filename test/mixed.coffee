@@ -11,7 +11,7 @@ With Arguments / Without Arguments
 
 chai    = require 'chai'
 should  = chai.should()
-rcell   = require 'reactive-cell'
+reactivity   = require 'reactivity'
 X       = require '../lib'
 
 delay = -> setTimeout arguments[1], arguments[0]
@@ -25,8 +25,7 @@ get_remote_text_async  = ( cb ) -> delay 10, -> cb null, remote_text
 get_remote_text_syncified_local  = X get_remote_text_async
 get_remote_text_syncified_global = X get_remote_text_async, global: true
 
-local_cell = rcell()
-local_cell 'x'
+local_cell = reactivity 'x'
 
 mix1 = -> to_upper_case_syncified_local( local_cell() ) + get_remote_text_syncified_local()
 mix2 = -> to_upper_case_syncified_local( local_cell() ) + get_remote_text_syncified_global()

@@ -3,7 +3,6 @@ chai = require 'chai'
 should = chai.should()
 
 X   = require '../lib'
-rcell      = require 'reactive-cell'
 
 delay = -> setTimeout arguments[1], arguments[0]
 say_hello = ( cb ) -> delay 10, -> cb null, 'hello'

@@ -21,7 +21,6 @@
   "dependencies": {
     "refmap": "0.0.3",
     "stackval": "0.2.1",
-    "reactive-cell": "~1.0.0",
-    "reactivity": "~1.3.1"
+    "reactivity": "~2.0.2"
   }
 }
