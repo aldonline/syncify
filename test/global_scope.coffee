@@ -17,12 +17,12 @@ describe 'a syncified function with global scope', ->
   x_is_y__global = X x_is_y, global: yes
 
   it 'global', (done) ->
-    X.async(x_is_y__global) 'apple', (e, r) ->
+    X.revert(x_is_y__global) 'apple', (e, r) ->
       r.should.equal 'apple is red'
       done()
 
   it 'global should always return a cached result', (done) ->
     y = 'blue'
-    X.async(x_is_y__global) 'apple', (e, r) ->
+    X.revert(x_is_y__global) 'apple', (e, r) ->
       r.should.equal 'apple is red'
       done()

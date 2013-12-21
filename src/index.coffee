@@ -98,8 +98,6 @@ main = ( x, y ) ->
 # Common.js exports
 if module? and module.exports?
   x = module.exports = main
-  x.sync        = block
-  x.async       = unblock
   x.revert      = unblock
   x.busy        = blocked
   x.get         = get
@@ -108,5 +106,4 @@ if module? and module.exports?
 # Browser exports
 if window?
   window.syncify = main
-
 

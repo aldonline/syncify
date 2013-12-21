@@ -17,12 +17,12 @@ get_name_uc = (id) -> uc get_name id
 describe 'a syncified function with local scope', ->
   
   it 'should retain its value during the lifecycle of a stack', (done) ->
-    X.async(get_name_uc) 'aldo', (e, r) ->
+    X.revert(get_name_uc) 'aldo', (e, r) ->
       r.should.equal 'ALDO'
       done()
 
   it 'but should not retain a value when used in a new stack', (done) ->
     people.aldo = 'Aldo Bucchi'
-    X.async(get_name_uc) 'aldo', (e, r) ->
+    X.revert(get_name_uc) 'aldo', (e, r) ->
       r.should.equal 'ALDO BUCCHI'
       done()

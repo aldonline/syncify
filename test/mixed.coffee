@@ -30,8 +30,8 @@ local_cell = reactivity 'x'
 mix1 = -> to_upper_case_syncified_local( local_cell() ) + get_remote_text_syncified_local()
 mix2 = -> to_upper_case_syncified_local( local_cell() ) + get_remote_text_syncified_global()
 
-mix1_async = X.async mix1
-mix2_async = X.async mix2
+mix1_async = X.revert mix1
+mix2_async = X.revert mix2
 
 reset = ->    
   remote_text = 'a'

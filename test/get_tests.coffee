@@ -12,11 +12,11 @@ describe 'get', ->
 
   it 'should return value or fallback to a default when function is busy', (done) ->
 
-    f1 = blocking.sync f
+    f1 = blocking f
 
     f2 = -> blocking.get f1, -> 'bar'
 
-    f3 = blocking.async f2
+    f3 = blocking.revert f2
 
     f3 (e, r) ->
       if e? then console.log e.stack
