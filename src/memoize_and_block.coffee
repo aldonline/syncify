@@ -1,6 +1,7 @@
 util       = require './util'
 Busy       = require './Busy'
 reactivity = require 'reactivity'
+executors  = require './executors'
 
 ###
 
@@ -13,7 +14,7 @@ Returns a function that has an internal cache.
 ###
 module.exports = ( async_func, hasher = JSON.stringify ) ->
   cache = {}
-  blocked_f = ->
+  blocked_f = executors.sequence ->
     args = util.arr arguments
     do cache[ hasher args ] ?= do ->
       # create a new cell for each hash

@@ -4,7 +4,7 @@ util           = require './util'
 Busy           = require './Busy'
 mab            = require './memoize_and_block'
 mabs           = require './memoize_and_block_scope'
-
+executors      = require './executors'
 
 ###
 options =
@@ -34,14 +34,16 @@ block_global = ( async_func, hasher ) -> mab async_func, hasher
 f = unblock f
 f (err, res, monitor) -> console.log res
 ###
-unblock = ( func ) -> ->
-  [args, cb] = util.args_cb arguments
-  func = mabs.attach func
-  reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
-    unless Busy.instance e
-      stopper()
-      cb? e, r, monitor
-  undefined
+unblock = ( func ) ->
+  func = executors.sequence func
+  ->
+    [args, cb] = util.args_cb arguments
+    func = mabs.attach func
+    reactivity.subscribe ( -> func.apply null, args ), (e, r, monitor, stopper) ->
+      unless Busy.instance e
+        stopper()
+        cb? e, r, monitor
+    undefined
 
 ###
 tests to see whether a function is blocked ( working )
@@ -96,12 +98,15 @@ main = ( x, y ) ->
 
 
 # Common.js exports
-if module? and module.exports?
-  x = module.exports = main
-  x.revert      = unblock
-  x.busy        = blocked
-  x.get         = get
-  x.subscribe   = subscribe
+if module?.exports? then module.exports = main
+
+x = main
+x.revert      = unblock
+x.busy        = blocked
+x.get         = get
+x.subscribe   = subscribe
+x.parallel    = (f) -> executors.parallel(f)()
+x.sequence    = (f) -> executors.sequence(f)()
 
 # Browser exports
 if window?
