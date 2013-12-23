@@ -4,6 +4,8 @@ In a nutshell, Syncify allows you to *temporarily bring asynchronous functions i
 can focus on solving your problem using clean, imperative code.
 Syncify does *not use Node Fibers* and **runs on any Javascript environment including the browser**.
 
+New: [Intro video](http://www.youtube.com/watch?v=hvlBpWlpdFo) ( 13 minutes )
+
 Here's a quick example of what Syncify can do for you:
 
 ```javascript
