@@ -1,7 +1,7 @@
 {
   "name": "syncify",
   "version": "1.1.0",
-  "description": "",
+  "description": "A radically simpler way to deal with asynchronous functions in javascript",
   "author": "Aldo Bucchi <aldo.bucchi@gmail.com>",
   "main": "lib/index.js",
   "scripts": {
@@ -22,5 +22,21 @@
     "refmap": "0.0.3",
     "stackval": "0.2.1",
     "reactivity": "~2.0.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/aldonline/syncify/issues"
+  },
+  "repository": {
+    "type": "git",
+    "type": "https://github.com/aldonline/syncify.git"
+  },
+  "keywords":[
+    "async",
+    "callback",
+    "thread",
+    "fiber",
+    "fibers",
+    "syncify",
+    "future",
+    "promise"]
 }
