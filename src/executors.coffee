@@ -1,3 +1,4 @@
+util       = require './util'
 Busy       = require './Busy'
 reactivity = require 'reactivity'
 
@@ -70,14 +71,7 @@ class ParallelExecutor extends Executor
 
 current = new RootExecutor
 
-around = ( opts ) -> ->
-    opts.before?()    
-    try
-      opts.func.apply null, arguments
-    finally
-      opts.finally?()
-
-with_executor = ( Ex ) -> ( f ) -> around
+with_executor = ( Ex ) -> ( f ) -> util.around
   before:  -> current = new Ex current
   finally: -> current = current.parent
   func:    ->

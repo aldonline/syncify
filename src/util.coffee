@@ -52,6 +52,13 @@ EQ = (a, b) -> a is b
 
 NOOP = ->
 
+around = ( opts ) -> ->
+    opts.before?()    
+    try
+      opts.func.apply null, arguments
+    finally
+      opts.finally?()
+
 module.exports = {
   arr
   delay
@@ -67,4 +74,5 @@ module.exports = {
   log
   EQ
   NOOP
+  around
 }
