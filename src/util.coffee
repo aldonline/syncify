@@ -39,25 +39,32 @@ cast_to_error = ( x ) -> if e instanceof  Error then e else new Error e
 
 get_or_else = ( obj, key, generator ) -> if key of obj then obj[key] else ( obj[key] = generator() )
 
-module.exports =
-  arr:     arr
-  delay:   delay
-  concat:  concat
-  hash:    hash
-  args_cb: args_cb
-  apply:   apply
-  run_with_callback: run_with_callback
-  cast_to_error: cast_to_error
-  get_or_else: get_or_else
-  require_func: (f) ->
-    if ( t = typeof f ) isnt 'function'
-      throw new Error "requires a parameter of type 'function', not '#{t}'"
+require_func = ( f ) ->
+  if ( t = typeof f ) isnt 'function'
+    throw new Error "requires a parameter of type 'function', not '#{t}'"
 
-  # handy func for quick tests
-  say_hello_delayed: ( name, cb ) -> delay 100, -> cb? null, "Hello #{name}"
+# handy func for quick tests
+say_hello_delayed = ( name, cb ) -> delay 100, -> cb? null, "Hello #{name}"
 
-  log: -> console.log.apply null, arguments
+log = -> console.log.apply null, arguments
 
-  EQ: (a, b) -> a is b
+EQ = (a, b) -> a is b
 
-  NOOP: ->
+NOOP = ->
+
+module.exports = {
+  arr
+  delay
+  concat
+  hash
+  args_cb
+  apply
+  run_with_callback
+  cast_to_error
+  get_or_else
+  require_func
+  say_hello_delayed
+  log
+  EQ
+  NOOP
+}
