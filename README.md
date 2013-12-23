@@ -1,7 +1,12 @@
 # Syncify.js
 
 In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
-can focus on solving your problem using clean, imperative code. Here's a quick example of what Syncify can do for you:
+can focus on solving your problem using clean, imperative code.
+Syncify does *not use Node Fibers* and **runs on any Javascript environment including the browser**.
+
+New: [Intro video](http://www.youtube.com/watch?v=hvlBpWlpdFo) ( 13 minutes )
+
+Here's a quick example of what Syncify can do for you:
 
 ```javascript
 
@@ -35,7 +40,7 @@ function getFriendNames( id ){
 // now that we have our combined function
 // we need to bring it back to the async world
 // in order to call it
-var getFriendNamesFromServer = syncify.async( getFriendNames )
+var getFriendNamesFromServer = syncify.revert( getFriendNames )
 
 // voila!
 // we can call our combined function
