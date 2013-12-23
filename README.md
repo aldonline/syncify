@@ -64,7 +64,7 @@ npm install syncify
 
 #### Load Javascript on the browser
 
-**WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "START" ABOVE**
+**WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "STAR" ABOVE**
 
 In the meantime you can build your own by running build.sh
 
