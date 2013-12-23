@@ -1,7 +1,10 @@
 # Syncify.js
 
 In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
-can focus on solving your problem using clean, imperative code. Here's a quick example of what Syncify can do for you:
+can focus on solving your problem using clean, imperative code.
+Syncify does *not use Node Fibers* and **runs on any Javascript environment including the browser**.
+
+Here's a quick example of what Syncify can do for you:
 
 ```javascript
 
