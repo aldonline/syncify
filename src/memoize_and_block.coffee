@@ -30,6 +30,6 @@ module.exports = ( async_func, hasher = JSON.stringify ) ->
     old_cache = cache
     cache = {} # empty cache ( next time a request is made it will be forced to fetch the result once again )
     for own k, cell of old_cache
-      cell cell() + '.' # change value to force an invalidation
+      cell {} # change value to force an invalidation
 
   blocked_f
