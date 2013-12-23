@@ -3,20 +3,20 @@ chai = require 'chai'
 should = chai.should()
 
 {delay} = require '../lib/util'
-blocking = require '../lib'
+syncify = require '../lib'
 
 
 f = (cb) -> delay 10, -> cb null, 'foo'
 
 describe 'get', ->
 
-  it 'should return value or fallback to a default when function is busy', (done) ->
+  it 'should return value or fallback to a default when function is pending', (done) ->
 
-    f1 = blocking f
+    f1 = syncify f
 
-    f2 = -> blocking.get f1, -> 'bar'
+    f2 = -> syncify.get f1, -> 'bar'
 
-    f3 = blocking.revert f2
+    f3 = syncify.revert f2
 
     f3 (e, r) ->
       if e? then console.log e.stack

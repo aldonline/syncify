@@ -3,7 +3,7 @@ should = chai.should()
 
 blocking = require '../lib'
 
-public_funcs = 'busy get subscribe revert parallel sequence'
+public_funcs = 'pending get subscribe revert parallel sequence'
 
 describe 'the syncify api', ->
   it 'should be a function itself', ->

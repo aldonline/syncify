@@ -8,7 +8,7 @@ delay     = -> setTimeout arguments[1], arguments[0]
 serial = 0
 say_hello = ( cb ) -> delay 10, -> cb null, 'hello ' + serial++
 
-describe 'global + subscribe + reset + busy', ->
+describe 'global + subscribe + reset + pending', ->
   it 'should work', (done) ->
     
     serial = 0 # reset state
@@ -18,8 +18,8 @@ describe 'global + subscribe + reset + busy', ->
     results = []
 
     f = ->
-      if X.busy say_hello_global
-        'busy'
+      if X.pending say_hello_global
+        'pending'
       else
         say_hello_global()
 
@@ -27,7 +27,7 @@ describe 'global + subscribe + reset + busy', ->
     X.subscribe f, -> results.push arguments
 
     results.should.have.length 1
-    results[0][1].should.equal 'busy'  
+    results[0][1].should.equal 'pending'  
 
 
     delay 20, ->
@@ -46,7 +46,7 @@ describe 'global + subscribe + reset + busy', ->
         say_hello_global.reset() # trigger a refresh
 
         results.should.have.length 3
-        results[2][1].should.equal 'busy'  
+        results[2][1].should.equal 'pending'  
 
 
         delay 20, ->

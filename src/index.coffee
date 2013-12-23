@@ -11,15 +11,15 @@ options =
   global: no
   hasher: JSON.stringify
 ###
-block = ( async_func, opts = undefined ) ->
+syncify = ( async_func, opts = undefined ) ->
   global  = opts?.global is true
   hasher  = ( opts?.hasher or JSON.stringify )
   if global
-    block_global async_func, hasher
+    syncify_global async_func, hasher
   else
-    block_local async_func, hasher
+    syncify_local async_func, hasher
 
-block_local = ( async_func, hasher ) ->
+syncify_local = ( async_func, hasher ) ->
   ->
     # we look for a local scope up the stack
     if mabs.defined()
@@ -28,13 +28,13 @@ block_local = ( async_func, hasher ) ->
     else
       throw new Error 'local syncified function with no parent context'
 
-block_global = ( async_func, hasher ) -> mab async_func, hasher
+syncify_global = ( async_func, hasher ) -> mab async_func, hasher
 
 ###
-f = unblock f
+f = revert f
 f (err, res, monitor) -> console.log res
 ###
-unblock = ( func ) ->
+revert = ( func ) ->
   func = executors.sequence func
   ->
     [args, cb] = util.args_cb arguments
@@ -48,7 +48,7 @@ unblock = ( func ) ->
 ###
 tests to see whether a function is blocked ( working )
 ###
-blocked = ( f ) ->
+pending = ( f ) ->
   try
     f()
     false
@@ -64,7 +64,7 @@ blocked = ( f ) ->
 # could be called get_or_else() but that's too long
 get = ( f, v ) ->
   result = undefined
-  if ( blocked -> result = f() )
+  if ( pending -> result = f() )
     if typeof v is 'function' then v() else v
   else
     result
@@ -74,7 +74,7 @@ subscribe = ( func, cb ) ->
   stopper = -> stopped = yes
   do iter = ->
     unless stopped
-      unblock(func) (e, r, m) ->
+      revert(func) (e, r, m) ->
         unless stopped      
           m?.on 'change', iter
           cb? e, r, m, stopper
@@ -87,13 +87,13 @@ main = ( x, y ) ->
   if arguments.length is 3
     [func, args, cb] = arguments
     args.push cb
-    unblock( func ).apply null, args
+    revert( func ).apply null, args
   else
     switch typeof x + ' ' + typeof y
-      when 'function undefined'  then block x
+      when 'function undefined'  then syncify x
       when 'function function'   then subscribe x, y
-      when 'object function'     then block y, x
-      when 'function object'     then block x, y
+      when 'object function'     then syncify y, x
+      when 'function object'     then syncify x, y
       else throw new Error 'Invalid Arguments'
 
 
@@ -101,8 +101,8 @@ main = ( x, y ) ->
 if module?.exports? then module.exports = main
 
 x = main
-x.revert      = unblock
-x.busy        = blocked
+x.revert      = revert
+x.pending     = pending
 x.get         = get
 x.subscribe   = subscribe
 x.parallel    = (f) -> executors.parallel(f)()

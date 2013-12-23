@@ -2,7 +2,7 @@ chai = require 'chai'
 
 should = chai.should()
 
-blocking    = require '../lib'
+syncify    = require '../lib'
 reactivity  = require 'reactivity'
 
 delay = -> setTimeout arguments[1], arguments[0]
@@ -14,7 +14,7 @@ describe 'subscribe', ->
 
     num = reactivity()
 
-    tt = blocking times_two_async
+    tt = syncify times_two_async
     func = -> tt num()
 
     inputs = [ 2, 3 ]
@@ -22,7 +22,7 @@ describe 'subscribe', ->
 
     do next = -> num inputs.shift()
 
-    blocking.subscribe func, (e, r, m, s) ->
+    syncify.subscribe func, (e, r, m, s) ->
       if e? then console.log e.stack
       should.not.exist e
       r.should.equal outputs.shift()

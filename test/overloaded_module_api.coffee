@@ -2,7 +2,7 @@ chai = require 'chai'
 
 should = chai.should()
 
-blocking    = require '../lib'
+syncify    = require '../lib'
 reactivity  = require 'reactivity'
 
 delay = -> setTimeout arguments[1], arguments[0]
@@ -14,7 +14,7 @@ describe 'the overloaded api', ->
 
     num = reactivity()
 
-    tt = blocking times_two_async
+    tt = syncify times_two_async
     func = -> tt num()
 
     inputs = [ 2, 3 ]
@@ -22,7 +22,7 @@ describe 'the overloaded api', ->
 
     do next = -> num inputs.shift()
 
-    blocking func, (e, r, m, s) ->
+    syncify func, (e, r, m, s) ->
       r.should.equal outputs.shift()
       if outputs.length is 0
         s()

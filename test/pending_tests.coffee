@@ -3,24 +3,24 @@ chai = require 'chai'
 should = chai.should()
 
 {delay} = require '../lib/util'
-blocking = require '../lib'
+syncify = require '../lib'
 
 f = (cb) -> delay 10, -> cb null, 'foo'
 
-describe 'busy', ->
+describe 'pending', ->
 
-  it 'should return true when a blocked function is still blocking', ( done ) ->
+  it 'should return true when a blocked function is still syncify', ( done ) ->
 
-    # F1 is a blocking version of F ( it is now sync )
-    f1 = blocking f
+    # F1 is a syncify version of F ( it is now sync )
+    f1 = syncify f
 
     # F2 is a sync reactive function that tells us whether F1
     # is still blocked or not
-    f2 = -> blocking.busy f1
+    f2 = -> syncify.pending f1
 
     # We unblock F2 so we can call it outside of an evaluation scope
     # it is now a normal async function that takes a callback
-    f3 = blocking.revert f2
+    f3 = syncify.revert f2
 
     # execute F3 for the first time
     # as soon as we do this, F2 will start its execution
@@ -28,7 +28,7 @@ describe 'busy', ->
       # F2 is not ready yet
       if e? then console.log e.stack # debug visually
       should.not.exist e
-      # thus the result of blocking is true
+      # thus the result of syncify is true
       r.should.equal yes
       delay 20, ->
         # we wait 200ms, which should be enough time
