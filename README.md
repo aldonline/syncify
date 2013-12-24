@@ -76,19 +76,19 @@ You can find ready to use .js and .min.js files in the [/build](https://github.c
 
 # API
 
-## syncify( asyncFunc: Function ): Function
+### syncify( asyncFunc: Function ): Function
 
 Takes an async function and returns a syncified version
 
-## syncify.revert( syncifiedFunc: Function ): Function
+### syncify.revert( syncifiedFunc: Function ): Function
 
 Takes a syncified function ( or a function that contains nested syncified functions ) and returns an equivalent async function ( one that takes a callback ). This function is the counterpart/opposite of `syncify()`.
 
-## syncify.parallel( block:Function )
+### syncify.parallel( block:Function )
 
 See video ( top of the page )
 
-## syncify.sequence( block:Function )
+### syncify.sequence( block:Function )
 
 See video ( top of the page )
 
