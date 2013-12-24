@@ -6,6 +6,9 @@ Syncify does *not use Node Fibers* and **runs on any Javascript environment incl
 
 New: [Intro video](http://www.youtube.com/watch?v=hvlBpWlpdFo) ( 13 minutes )
 
+[![Syncify Intro Video](https://dl.dropboxusercontent.com/u/497895/__permalinks/syncify-youtube-screenshot.png)](http://www.youtube.com/watch?v=hvlBpWlpdFo)
+
+
 Here's a quick example of what Syncify can do for you:
 
 ```javascript
@@ -64,10 +67,16 @@ npm install syncify
 
 #### Load Javascript on the browser
 
-Take a look at the `/build` folder
+**WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "STAR" ABOVE**
+
+In the meantime you can build your own by running build.sh
 
 # Caveats
 
 * Functions must be idempotent
 * Their arguments must be JSON serializable
+* 
+# How does it work?
+
+
 
