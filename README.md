@@ -71,13 +71,16 @@ npm install syncify
 
 **WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "STAR" ABOVE**
 
+You can find ready to use .js and .min.js files in the [/build](https://github.com/aldonline/syncify/tree/master/build) directory.
+
+
 In the meantime you can build your own by running build.sh
 
 # Caveats
 
 * Functions must be idempotent
 * Their arguments must be JSON serializable
-
+* There are a few known bugs ( see [issue #18](https://github.com/aldonline/syncify/issues/18) ). But other than that the code has been used in a dozen apps in production for over 4 months.
 
 # How does it work?
 
