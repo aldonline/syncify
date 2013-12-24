@@ -74,8 +74,6 @@ npm install syncify
 You can find ready to use .js and .min.js files in the [/build](https://github.com/aldonline/syncify/tree/master/build) directory.
 
 
-In the meantime you can build your own by running build.sh
-
 # Caveats
 
 * Functions must be idempotent
