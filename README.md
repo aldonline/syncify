@@ -4,9 +4,11 @@ In a nutshell, Syncify allows you to *temporarily bring asynchronous functions i
 can focus on solving your problem using clean, imperative code.
 Syncify does *not use Node Fibers* and **runs on any Javascript environment including the browser**.
 
-New: [Intro video](http://www.youtube.com/watch?v=hvlBpWlpdFo) ( 13 minutes )
 
 [![Syncify Intro Video](https://dl.dropboxusercontent.com/u/497895/__permalinks/syncify-youtube-screenshot.png)](http://www.youtube.com/watch?v=hvlBpWlpdFo)
+
+* [Intro video](http://www.youtube.com/watch?v=hvlBpWlpdFo) ( 13 minutes )
+* [Introductory article at Airpair](http://airpair.com/javascript/syncify-tutorial)
 
 
 Here's a quick example of what Syncify can do for you:
@@ -75,8 +77,10 @@ In the meantime you can build your own by running build.sh
 
 * Functions must be idempotent
 * Their arguments must be JSON serializable
-* 
+
+
 # How does it work?
 
+I will dig deep into this when I find the time. For now you can find more info on the [article at AirPair](http://airpair.com/javascript/syncify-tutorial)
 
 
