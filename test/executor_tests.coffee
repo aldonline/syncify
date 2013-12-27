@@ -71,7 +71,6 @@ f3 = (run) ->
     syncify.sequence ->
       run 4
 
-# TODO: this is not ending
 describe 'seq( x, x, parallel( x, x, seq( x ) )', ->
   it 'should work', (done) ->
     syncify f3, [ ( coll3 = new Collector ).runner() ], (e, r) ->

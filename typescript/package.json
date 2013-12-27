@@ -1,0 +1,37 @@
+{
+  "name": "syncify-ts",
+  "version": "0.4.1",
+  "description": "",
+  "author": "Aldo Bucchi <aldo.bucchi@gmail.com>",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm run clean_test ; npm run build_test ; node test_out/_test.js",
+    "build_test": "node_modules/typescript/bin/tsc --module commonjs --outDir test_out src/_test.ts",
+    "clean_test": "rm test_out/*.js",
+    "build": "node_modules/typescript/bin/tsc --module commonjs --outDir lib src/index.ts",
+    "clean": "rm lib/*.js",
+    "sandbox": "npm run clean ; npm run build ; node lib/index.js",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "chai": "~1.5.0",
+    "coffee-script": "~1.6.3",
+    "browserify": "~2.34.0",
+    "uglify-js": "~2.4.0",
+    "typescript": "~0.9.1-1",
+    "should": "~2.1.0",
+    "grunt-ts": "~1.4.2",
+    "grunt": "~0.4.2",
+    "grunt-mocha": "~0.4.6",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-simple-mocha": "~0.4.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-clean": "~0.5.0"
+  },
+  "repository": "",
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "reactivity": "~2.0.2"
+  }
+}
