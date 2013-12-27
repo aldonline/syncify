@@ -2,3 +2,7 @@
 /node_modules
 .DS_Store
 npm-debug.log
+typescript/.settings
+typescript/build
+typescript/node_modules
+typescript/tscommand.tmp.txt
