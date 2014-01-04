@@ -27,28 +27,25 @@ function getFriendNamesFromServer( cb ){ ... }
 // so we "syncify" these async functions
 // ( we temporarily bring them to the sync world using black magic )
 var  getFriendIds = syncify( getFriendIdsFromServer )
-var  getFirstName = syncify(  getFirstNameFromServer )
-var  getLastName  = syncify(  getLastNameFromServer )
+var  getFirstName = syncify( getFirstNameFromServer )
+var  getLastName  = syncify( getLastNameFromServer )
 
 // and we can now combine them using clean, synchronous imperative code
+function getFullName( id ){
+  return getFirstName( id ) + " " + getLastName( id )
+}
+
 function getFriendNames( id ){
-  var names = [];
-  var friendIds = getFriendIds( id );
-  for ( var i=0; i<friendIds.length; i++ ){
-    var id = friendIds[i];
-    // look mom. no callbacks!
-    names.push( getFirstName( id ) + " " + getLastName( id ) );
-  }
-  return names;
+  return getFriendIds( id ).map( getFullName )
 }
 
 // now that we have our combined function
-// we need to bring it back to the async world
-// in order to call it
+// we bring it back to the async world
 var getFriendNamesFromServer = syncify.revert( getFriendNames )
 
 // voila!
-// we can call our combined function
+// we created a composite async function
+// without visiting callback hell
 getFriendNamesFromServer( 78, function( err, names ){
   console.log( names.join( ", " ) );
 })
