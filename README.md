@@ -122,9 +122,13 @@ npm install syncify
 
 #### Load Javascript on the browser
 
-**WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "STAR" ABOVE**
+Syncify has no external dependencies. Just include it like you would any JS library:
 
-You can find ready to use .js and .min.js files in the [/build](https://github.com/aldonline/syncify/tree/master/build) directory.
+```html
+<script src="http://aldonline.github.io/syncify/build/syncify-1.1.0.js"/>
+```
+
+If you prefer you can find the .js and .min.js builds in the [/build](https://github.com/aldonline/syncify/tree/master/build) directory.
 
 
 # API
