@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Syncify : A radically simpler way to deal with asynchronous functions in javascript" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Syncify</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/aldonline/syncify">View on GitHub</a>
+
+          <h1 id="project_title">Syncify</h1>
+          <h2 id="project_tagline">A radically simpler way to deal with asynchronous functions in javascript</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/aldonline/syncify/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/aldonline/syncify/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="syncifyjs" class="anchor" href="#syncifyjs"><span class="octicon octicon-link"></span></a>Syncify.js</h1>
+
+<p>Syncify is an innovative alternative to <a href="https://github.com/caolan/async">Async.js</a>, <a href="https://github.com/creationix/step">Step</a> and <a href="https://github.com/laverdet/node-fibers">Node Fibers</a>. It allows you to deal with "Callback Hell" in a very simple way.</p>
+
+<p>It works just like Node Fibers in that it <strong><em>completely eliminates the need for callbacks</em></strong>. But, unlike Node Fibers, it also <strong><em>works on the browser!</em></strong></p>
+
+<p><a href="http://www.youtube.com/watch?v=hvlBpWlpdFo"><img src="https://dl.dropboxusercontent.com/u/497895/__permalinks/syncify-youtube-screenshot.png" alt="Syncify Intro Video"></a></p>
+
+<ul>
+<li>
+<a href="http://www.youtube.com/watch?v=hvlBpWlpdFo">Intro video</a> ( 13 minutes )</li>
+<li><a href="http://airpair.com/javascript/syncify-tutorial">Introductory article at Airpair</a></li>
+</ul><h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<h3>
+<a name="without-syncify" class="anchor" href="#without-syncify"><span class="octicon octicon-link"></span></a>Without Syncify</h3>
+
+<p>This is a typical composite function that calls an Ajax service several times:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">function</span> <span class="nx">getFullName</span><span class="p">(</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">cb</span> <span class="p">){</span>
+  <span class="nx">ajax</span><span class="p">(</span> <span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/name"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">name</span> <span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">err</span> <span class="p">){</span>
+      <span class="nx">cb</span><span class="p">(</span> <span class="nx">err</span> <span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">ajax</span><span class="p">(</span> <span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/lastname"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">lastname</span> <span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">err</span> <span class="p">){</span>
+          <span class="nx">cb</span><span class="p">(</span> <span class="nx">err</span> <span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">cb</span><span class="p">(</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">lastname</span> <span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Uff. That's a lot of nested callbacks. Let's see if we can do better.</p>
+
+<h3>
+<a name="with-syncify" class="anchor" href="#with-syncify"><span class="octicon octicon-link"></span></a>With Syncify</h3>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// 1. syncify any async function you want to use</span>
+<span class="nx">ajax</span> <span class="o">=</span> <span class="nx">syncify</span><span class="p">(</span> <span class="nx">ajax</span> <span class="p">)</span>
+
+<span class="c1">// 2. you can now forget about callbacks when dealing with ajax()</span>
+<span class="kd">function</span> <span class="nx">getFullName</span><span class="p">(</span> <span class="nx">id</span> <span class="p">){</span>
+    <span class="k">return</span> <span class="nx">ajax</span><span class="p">(</span> <span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/name"</span> <span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">ajax</span><span class="p">(</span> <span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/lastname"</span> <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 3. unsyncify the resulting function</span>
+<span class="c1">//    ( so that it takes a callback again )</span>
+<span class="nx">getFullName</span> <span class="o">=</span> <span class="nx">syncify</span><span class="p">.</span><span class="nx">revert</span><span class="p">(</span> <span class="nx">getFullName</span> <span class="p">)</span>
+
+</pre></div>
+
+<p>Both functions ( the one with syncify and the one without syncify ) are equivalent. You can call them like this:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">getFullName</span><span class="p">(</span> <span class="s2">"aldo"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span> <span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">res</span> <span class="p">)})</span>
+</pre></div>
+
+<p>Isn't that awesome?</p>
+
+<p>Syncify allowed us to <strong><em>magically get rid of callbacks</em></strong> while creating a composite function.
+It is not just cleaner, but it also allows us to <strong><em>take advantage of the full power of Javascript</em></strong>.</p>
+
+<p>You can use any function. For example:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">function</span> <span class="nx">getNameUC</span><span class="p">(</span> <span class="nx">id</span> <span class="p">){</span>
+    <span class="k">return</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/name"</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>You can even process a collection using Array.map()!</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">function</span> <span class="nx">getFriendNames</span><span class="p">(</span> <span class="nx">id</span> <span class="p">){</span>
+    <span class="k">return</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/friends"</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">friend</span> <span class="p">){</span>
+        <span class="k">return</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">friend</span> <span class="o">+</span> <span class="s2">"/name"</span> <span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">friend</span> <span class="o">+</span> <span class="s2">"/lastname"</span> <span class="p">)</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>You can literally do anything. <strong><em>Syncify allows you to escape from Callback Hell so you can continue coding in regular Javascript</em></strong>.</p>
+
+<h2>
+<a name="limitations" class="anchor" href="#limitations"><span class="octicon octicon-link"></span></a>Limitations</h2>
+
+<p>Well. To be honest. You cannot do just <strong>anything</strong>. <strong><em>You cannot use Syncify to deal with functions that mutate application state</em></strong>. That means you can exclusively use it with read-only functions.</p>
+
+<p>While this sounds like a limitation, in practice it is not. Syncify is much better at composing queries ( functions that fetch data and draw the UI ) while <a href="https://github.com/caolan/async">Async.js</a> is better at composing business logic. You can combine them.</p>
+
+<p>To compensate for this limitation, Syncify has grown some cool tricks. For example, transparent concurrency.</p>
+
+<h2>
+<a name="concurrency" class="anchor" href="#concurrency"><span class="octicon octicon-link"></span></a>Concurrency</h2>
+
+<p>You can make the above method much faster by using syncify.parallel:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">function</span> <span class="nx">getFriendNames</span><span class="p">(</span> <span class="nx">id</span> <span class="p">){</span>
+  <span class="kd">var</span> <span class="nx">friends</span> <span class="o">=</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/friends"</span><span class="p">)</span>
+  <span class="nx">syncify</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="c1">// all requests issued within this block will be parallelized</span>
+    <span class="nx">friends</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+      <span class="k">return</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/name"</span> <span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">ajax</span><span class="p">(</span><span class="s2">"/user/"</span> <span class="o">+</span> <span class="nx">id</span> <span class="o">+</span> <span class="s2">"/lastname"</span> <span class="p">)</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<h3>
+<a name="get-the-code" class="anchor" href="#get-the-code"><span class="octicon octicon-link"></span></a>Get the code</h3>
+
+<h4>
+<a name="using-npm" class="anchor" href="#using-npm"><span class="octicon octicon-link"></span></a>Using NPM</h4>
+
+<pre lang="shell"><code>npm install syncify
+</code></pre>
+
+<h4>
+<a name="load-javascript-on-the-browser" class="anchor" href="#load-javascript-on-the-browser"><span class="octicon octicon-link"></span></a>Load Javascript on the browser</h4>
+
+<p><strong>WE NEED MORE STARS ON THIS PROJECT TO GET IT INTO CDNJS!! CLICK "STAR" ABOVE</strong></p>
+
+<p>You can find ready to use .js and .min.js files in the <a href="https://github.com/aldonline/syncify/tree/master/build">/build</a> directory.</p>
+
+<h1>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h1>
+
+<h3>
+<a name="syncify-asyncfunc-function--function" class="anchor" href="#syncify-asyncfunc-function--function"><span class="octicon octicon-link"></span></a>syncify( asyncFunc: Function ): Function</h3>
+
+<p>Takes an async function and returns a syncified version</p>
+
+<h3>
+<a name="syncifyrevert-syncifiedfunc-function--function" class="anchor" href="#syncifyrevert-syncifiedfunc-function--function"><span class="octicon octicon-link"></span></a>syncify.revert( syncifiedFunc: Function ): Function</h3>
+
+<p>Takes a syncified function ( or a function that contains nested syncified functions ) and returns an equivalent async function ( one that takes a callback ). This function is the counterpart/opposite of <code>syncify()</code>.</p>
+
+<h3>
+<a name="syncifyparallel-blockfunction-" class="anchor" href="#syncifyparallel-blockfunction-"><span class="octicon octicon-link"></span></a>syncify.parallel( block:Function )</h3>
+
+<p>See video ( top of the page )</p>
+
+<h3>
+<a name="syncifysequence-blockfunction-" class="anchor" href="#syncifysequence-blockfunction-"><span class="octicon octicon-link"></span></a>syncify.sequence( block:Function )</h3>
+
+<p>See video ( top of the page )</p>
+
+<h1>
+<a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h1>
+
+<ul>
+<li>Functions must be idempotent</li>
+<li>Their arguments must be JSON serializable</li>
+<li>There are a few known bugs ( see <a href="https://github.com/aldonline/syncify/issues/18">issue #18</a> ). But other than that the code has been used in a dozen apps in production for over 4 months.</li>
+</ul><h1>
+<a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work?</h1>
+
+<p>I will dig deep into this when I find the time. For now you can find more info on the <a href="http://airpair.com/javascript/syncify-tutorial">article at AirPair</a>.</p>
+
+<p>This module uses <a href="https://github.com/aldonline/reactivity">Native Reactivity</a> under the covers. This means you can combine it transparently with other Native Reactivity libraries. ( TODO: links ).</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Syncify maintained by <a href="https://github.com/aldonline">aldonline</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
