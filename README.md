@@ -88,11 +88,11 @@ You can literally do anything. ***Syncify allows you to escape from Callback Hel
 
 Well. To be honest. You cannot do just **anything**. ***You cannot use Syncify to deal with functions that mutate application state***. That means you can exclusively use it with read-only functions.
 
-While this sounds like a limitation, in practice it is not. Syncify is much better at composing async queries ( functions that read ) while [Async.js](https://github.com/caolan/async) is better at composing business logic. You can combine them.
+While this sounds like a limitation, in practice it is not. Syncify is much better at composing queries ( functions that fetch data and draw the UI ) while [Async.js](https://github.com/caolan/async) is better at composing business logic. You can combine them.
 
 ##
 
-To compensate for this limitation, Syncify has grown some cool tricks. For example:
+To compensate for this limitation, Syncify has grown some cool tricks. For example, transparent concurrency.
 
 ## Concurrency
 
@@ -109,7 +109,6 @@ function getFriendNames( id ){
   })
 }
 ```
-
 
 ## Quickstart
 
