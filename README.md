@@ -163,3 +163,7 @@ I will dig deep into this when I find the time. For now you can find more info o
 This module uses [Native Reactivity](https://github.com/aldonline/reactivity) under the covers. This means you can combine it transparently with other Native Reactivity libraries. ( TODO: links ).
 
 
+![Remove All The Callbacks](https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme.png)
+
+
+
