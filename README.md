@@ -48,18 +48,31 @@ function getFullName( id ){
 }
 
 // 3. unsyncify the resulting function
+//    ( so that it takes a callback again )
 getFullName = syncify.revert( getFullName )
 
-// 4. execute
-getFullName( "aldo", function(err, res) {
-	console.log( err, res )
-})
 ```
 
-Much better. Syncify allowed us to ***get rid of callbacks*** while creating a composite function.
+Both functions ( the one with syncify and the one without syncify ) are equivalent. You can call them like this:
+
+```javascript
+getFullName( "aldo", function( err, res ){ console.log( res )})
+```
+
+Isn't that awesome?
+
+Syncify allowed us to ***magically get rid of callbacks*** while creating a composite function.
 It is not just cleaner, but it also allows us to ***take advantage of the full power of Javascript***.
 
-For example, you can iterate over an array using Array.map()
+You can use any function. For example:
+
+```javascript
+function getNameUC( id ){
+	return ajax("/user/" + id + "/name").toUpperCase()
+}
+```
+
+You can even process a collection using Array.map()!
 
 ```javascript
 function getFriendNames( id ){
@@ -69,25 +82,29 @@ function getFriendNames( id ){
 }
 ```
 
-You can literally do anything. You are now programming in totally synchronous Javascript.
+You can literally do anything. ***Syncify allows you to escape from Callback Hell so you can continue coding in regular Javascript***.
+
+## Limitations
 
 Well. To be honest. You cannot do just **anything**. ***You cannot use Syncify to deal with functions that mutate application state***. That means you can exclusively use it with read-only functions.
 
 While this sounds like a limitation, in practice it is not. Syncify is much better at composing async queries ( functions that read ) while [Async.js](https://github.com/caolan/async) is better at composing business logic. You can combine them.
 
+##
+
 To compensate for this limitation, Syncify has grown some cool tricks. For example:
 
-### Concurrency
+## Concurrency
 
 You can make the above method much faster by using syncify.parallel:
 
 ```javascript
 function getFriendNames( id ){
-	var friends = ajax("/user/" + id + "/friends")
-	syncify.parallel(function(){
-		// all requests issued within this block will be parallelized
+  var friends = ajax("/user/" + id + "/friends")
+  syncify.parallel(function(){
+    // all requests issued within this block will be parallelized
     friends.map(function(){
-		  return ajax("/user/" + id + "/name" ) + " " + ajax("/user/" + id + "/lastname" )
+      return ajax("/user/" + id + "/name" ) + " " + ajax("/user/" + id + "/lastname" )
     })
   })
 }
