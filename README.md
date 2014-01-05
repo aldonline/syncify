@@ -1,9 +1,9 @@
 # Syncify.js
 
-In a nutshell, Syncify allows you to *temporarily bring asynchronous functions into the synchronous world* so you
-can focus on solving your problem using clean, imperative code.
-Syncify does *not use Node Fibers* and **runs on any Javascript environment including the browser**.
 
+Syncify is an innovative alternative to [Async.js](https://github.com/caolan/async), [Step](https://github.com/creationix/step) and [Node Fibers](https://github.com/laverdet/node-fibers). It allows you to deal with "Callback Hell" in a very simple way.
+
+It works just like Node Fibers in that it ***completely eliminates the need for callbacks***. But, unlike Node Fibers, it also ***works on the browser!***
 
 [![Syncify Intro Video](https://dl.dropboxusercontent.com/u/497895/__permalinks/syncify-youtube-screenshot.png)](http://www.youtube.com/watch?v=hvlBpWlpdFo)
 
@@ -11,46 +11,86 @@ Syncify does *not use Node Fibers* and **runs on any Javascript environment incl
 * [Introductory article at Airpair](http://airpair.com/javascript/syncify-tutorial)
 
 
-Here's a quick example of what Syncify can do for you:
+## Example
+
+### Without Syncify
+This is a typical composite function that calls an Ajax service several times:
 
 ```javascript
+function getFullName( id, cb ){
+  ajax( "/user/" + id + "/name", function( err, name ){
+    if ( err ){
+      cb( err );
+    } else {
+      ajax( "/user/" + id + "/lastname", function( err, lastname ){
+        if ( err ){
+          cb( err )
+        } else {
+          cb( null, name + " " + lastname )
+        }
+      })
+    }
+  })
+}
+```
 
-// we have three async functions that go to the server and fetch some data
-function getFriendIdsFromServer( id, cb ){ ... }
-function getFirstNameFromServer( id, cb ){ ... }
-function getLastNameFromServer( id, cb ){ ... }
+Uff. That's a lot of nested callbacks. Let's see if we can do better.
 
-// we want to create a function that combines them all
-function getFriendNamesFromServer( cb ){ ... }
+### With Syncify
 
-// we don't want to work with callbacks
-// so we "syncify" these async functions
-// ( we temporarily bring them to the sync world using black magic )
-var  getFriendIds = syncify( getFriendIdsFromServer )
-var  getFirstName = syncify( getFirstNameFromServer )
-var  getLastName  = syncify( getLastNameFromServer )
+```javascript
+// 1. syncify any async function you want to use
+ajax = syncify( ajax )
 
-// and we can now combine them using clean, synchronous imperative code
+// 2. you can now forget about callbacks when dealing with ajax()
 function getFullName( id ){
-  return getFirstName( id ) + " " + getLastName( id )
+	return ajax( "/user/" + id + "/name" ) + " " + ajax( "/user/" + id + "/lastname" )
 }
 
-function getFriendNames( id ){
-  return getFriendIds( id ).map( getFullName )
-}
+// 3. unsyncify the resulting function
+getFullName = syncify.revert( getFullName )
 
-// now that we have our combined function
-// we bring it back to the async world
-var getFriendNamesFromServer = syncify.revert( getFriendNames )
-
-// voila!
-// we created a composite async function
-// without visiting callback hell
-getFriendNamesFromServer( 78, function( err, names ){
-  console.log( names.join( ", " ) );
+// 4. execute
+getFullName( "aldo", function(err, res) {
+	console.log( err, res )
 })
+```
 
+Much better. Syncify allowed us to ***get rid of callbacks*** while creating a composite function.
+It is not just cleaner, but it also allows us to ***take advantage of the full power of Javascript***.
 
+For example, you can iterate over an array using Array.map()
+
+```javascript
+function getFriendNames( id ){
+	return ajax("/user/" + id + "/friends").map( function( friend ){
+		return ajax("/user/" + friend + "/name" ) + " " + ajax("/user/" + friend + "/lastname" )
+  })
+}
+```
+
+You can literally do anything. You are now programming in totally synchronous Javascript.
+
+Well. To be honest. You cannot do just **anything**. ***You cannot use Syncify to deal with functions that mutate application state***. That means you can exclusively use it with read-only functions.
+
+While this sounds like a limitation, in practice it is not. Syncify is much better at composing async queries ( functions that read ) while [Async.js](https://github.com/caolan/async) is better at composing business logic. You can combine them.
+
+To compensate for this limitation, Syncify has grown some cool tricks. For example:
+
+### Concurrency
+
+You can make the above method much faster by using syncify.parallel:
+
+```javascript
+function getFriendNames( id ){
+	var friends = ajax("/user/" + id + "/friends")
+	syncify.parallel(function(){
+		// all requests issued within this block will be parallelized
+    friends.map(function(){
+		  return ajax("/user/" + id + "/name" ) + " " + ajax("/user/" + id + "/lastname" )
+    })
+  })
+}
 ```
 
 
