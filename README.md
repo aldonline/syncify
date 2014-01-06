@@ -49,16 +49,15 @@ Uff. That's a lot of nested callbacks. Let's see if we can do better.
 ### With Syncify
 
 ```javascript
-// 1. syncify any async function you want to use
+// 1. magically remove the callback from the ajax() service
 ajax = syncify( ajax )
 
-// 2. you can now forget about callbacks when dealing with ajax()
+// 2. create a composite function. but this time without callbacks
 function getFullName( id ){
 	return ajax( "/user/" + id + "/name" ) + " " + ajax( "/user/" + id + "/lastname" )
 }
 
-// 3. unsyncify the resulting function
-//    ( so that it takes a callback again )
+// 3. add a callback to the resulting function so we can later use it
 getFullName = syncify.revert( getFullName )
 
 ```
