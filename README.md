@@ -1,9 +1,11 @@
 # Syncify.js
 
+<img style="float:right" src="https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme-small.png"/>
 
 Syncify is an innovative alternative to [Async.js](https://github.com/caolan/async), [Step](https://github.com/creationix/step) and [Node Fibers](https://github.com/laverdet/node-fibers). It allows you to deal with "Callback Hell" in a very simple way.
 
 It works just like Node Fibers in that it ***completely eliminates the need for callbacks***. But, unlike Node Fibers, it also ***works on the browser!***
+
 
 [![Syncify Intro Video](https://dl.dropboxusercontent.com/u/497895/__permalinks/syncify-youtube-screenshot.png)](http://www.youtube.com/watch?v=hvlBpWlpdFo)
 
@@ -14,7 +16,15 @@ It works just like Node Fibers in that it ***completely eliminates the need for 
 ## Example
 
 ### Without Syncify
-This is a typical composite function that calls an Ajax service several times:
+
+
+Assume that we have a very simple async function that issues an AJAX request to some remote REST API
+
+```javascript
+ajax( url, callback )
+```
+
+This would be a typical composite function that calls the ajax() service several times:
 
 ```javascript
 function getFullName( id, cb ){
@@ -163,12 +173,6 @@ See video ( top of the page )
 * Functions must be idempotent
 * Their arguments must be JSON serializable
 * There are a few known bugs ( see [issue #18](https://github.com/aldonline/syncify/issues/18) ). But other than that the code has been used in a dozen apps in production for over 4 months.
-
-# How does it work?
-
-I will dig deep into this when I find the time. For now you can find more info on the [article at AirPair](http://airpair.com/javascript/syncify-tutorial).
-
-This module uses [Native Reactivity](https://github.com/aldonline/reactivity) under the covers. This means you can combine it transparently with other Native Reactivity libraries. ( TODO: links ).
 
 
 ![Remove All The Callbacks](https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme.png)
