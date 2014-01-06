@@ -82,6 +82,14 @@ function getFriendNames( id ){
 }
 ```
 
+Or, same as above but using the function we had already defined
+
+```javascript
+function getFriendNames( id ){
+	return ajax("/user/" + id + "/friends").map( getFullName )
+}
+```
+
 You can literally do anything. ***Syncify allows you to escape from Callback Hell so you can continue coding in regular Javascript***.
 
 ## Limitations
