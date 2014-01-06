@@ -1,7 +1,5 @@
 # Syncify.js
 
-<img style="float:right" src="https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme-small.png"/>
-
 Syncify is an innovative alternative to [Async.js](https://github.com/caolan/async), [Step](https://github.com/creationix/step) and [Node Fibers](https://github.com/laverdet/node-fibers). It allows you to deal with "Callback Hell" in a very simple way.
 
 It works just like Node Fibers in that it ***completely eliminates the need for callbacks***. But, unlike Node Fibers, it also ***works on the browser!***
@@ -126,6 +124,8 @@ function getFriendNames( id ){
   })
 }
 ```
+
+The `syncify.parallel()` function is explained in [this video](http://www.youtube.com/watch?v=hvlBpWlpdFo).
 
 ## Quickstart
 
