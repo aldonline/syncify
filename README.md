@@ -11,6 +11,8 @@ It works just like Node Fibers in that it ***completely eliminates the need for 
 * [Introductory article at Airpair](http://airpair.com/javascript/syncify-tutorial)
 
 
+![Remove All The Callbacks](https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme.png)
+
 ## Example
 
 ### Without Syncify
@@ -172,9 +174,6 @@ See video ( top of the page )
 * Functions must be idempotent
 * Their arguments must be JSON serializable
 * There are a few known bugs ( see [issue #18](https://github.com/aldonline/syncify/issues/18) ). But other than that the code has been used in a dozen apps in production for over 4 months.
-
-
-![Remove All The Callbacks](https://dl.dropboxusercontent.com/u/497895/donkeyscript/images/allmeme.png)
 
 
 
