@@ -17,20 +17,18 @@
     "browserify": "~2.34.0",
     "uglify-js": "~2.4.0"
   },
-  "repository": "",
+  "repository": {
+    "type": "https://github.com/aldonline/syncify.git"
+  },
   "dependencies": {
+    "reactivity": "2.1.0",
     "refmap": "0.0.3",
-    "stackval": "0.2.1",
-    "reactivity": "~2.0.2"
+    "stackval": "0.2.1"
   },
   "bugs": {
     "url": "https://github.com/aldonline/syncify/issues"
   },
-  "repository": {
-    "type": "git",
-    "type": "https://github.com/aldonline/syncify.git"
-  },
-  "keywords":[
+  "keywords": [
     "async",
     "callback",
     "thread",
@@ -38,5 +36,6 @@
     "fibers",
     "syncify",
     "future",
-    "promise"]
+    "promise"
+  ]
 }
