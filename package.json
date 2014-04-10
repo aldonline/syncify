@@ -21,7 +21,7 @@
     "type": "https://github.com/aldonline/syncify.git"
   },
   "dependencies": {
-    "reactivity": "2.1.0",
+    "reactivity": "~2.2.0",
     "refmap": "0.0.3",
     "stackval": "0.2.1"
   },
