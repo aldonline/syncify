@@ -15,7 +15,7 @@ class MonitorCollector
 join_monitors = ( monitors ) ->
   if reactivity.active( ) and monitors.length > 0
     notifier = reactivity.notifier( )
-    fired = false    
+    fired = false
     cb = ->
       unless fired
         pending_monitors = ( m for m in monitors when m.state() is 'ready' )
