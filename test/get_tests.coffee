@@ -2,8 +2,8 @@ chai = require 'chai'
 
 should = chai.should()
 
-{delay} = require '../lib/util'
-syncify = require '../lib'
+{delay} = require '../src/util'
+syncify = require '../src'
 
 
 f = (cb) -> delay 10, -> cb null, 'foo'

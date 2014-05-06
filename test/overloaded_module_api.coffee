@@ -2,7 +2,7 @@ chai = require 'chai'
 
 should = chai.should()
 
-syncify    = require '../lib'
+syncify    = require '../src'
 reactivity  = require 'reactivity'
 
 delay = -> setTimeout arguments[1], arguments[0]

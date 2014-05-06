@@ -1,7 +1,7 @@
 chai = require 'chai'
 should = chai.should()
 
-syncify = require '../lib'
+syncify = require '../src'
 
 public_funcs = 'pending get subscribe revert parallel sequence'
 

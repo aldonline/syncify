@@ -2,7 +2,7 @@ chai = require 'chai'
 
 should = chai.should()
 
-X   = require '../lib'
+X   = require '../src'
 
 delay = -> setTimeout arguments[1], arguments[0]
 say_hello = ( cb ) -> delay 10, -> cb null, 'hello'

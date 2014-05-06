@@ -2,8 +2,8 @@ chai = require 'chai'
 
 should = chai.should()
 
-util = require '../lib/util'
-syncify = require '../lib'
+util = require '../src/util'
+syncify = require '../src'
 
 describe 'f.reset()', ->
 

@@ -1,8 +1,8 @@
 chai = require 'chai'
 should = chai.should()
 
-mab = require '../lib/memoize_and_block'
-{delay} = require '../lib/util'
+mab = require '../src/memoize_and_block'
+{delay} = require '../src/util'
 
 num_calls = 0
 say_hello = (name, cb) ->

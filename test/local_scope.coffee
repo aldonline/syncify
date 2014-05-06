@@ -2,8 +2,8 @@ chai = require 'chai'
 
 should = chai.should()
 
-{delay} = require '../lib/util'
-X = require '../lib'
+{delay} = require '../src/util'
+X = require '../src'
 
 
 people =

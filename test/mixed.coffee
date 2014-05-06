@@ -12,7 +12,7 @@ With Arguments / Without Arguments
 chai    = require 'chai'
 should  = chai.should()
 reactivity   = require 'reactivity'
-X       = require '../lib'
+X       = require '../src'
 
 delay = -> setTimeout arguments[1], arguments[0]
 
