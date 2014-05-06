@@ -96,7 +96,6 @@ main = ( x, y ) ->
       when 'function object'     then syncify x, y
       else throw new Error 'Invalid Arguments'
 
-
 # Common.js exports
 if module?.exports? then module.exports = main
 
@@ -107,6 +106,10 @@ x.get         = get
 x.subscribe   = subscribe
 x.parallel    = (f) -> executors.parallel(f)()
 x.sequence    = (f) -> executors.sequence(f)()
+x.cell        = ->
+  c = reactivity.cell()
+  c new Busy
+  c
 
 # Browser exports
 if window?

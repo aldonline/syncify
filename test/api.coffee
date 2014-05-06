@@ -3,7 +3,7 @@ should = chai.should()
 
 syncify = require '../src'
 
-public_funcs = 'pending get subscribe revert parallel sequence'
+public_funcs = 'pending get subscribe revert parallel sequence cell'
 
 describe 'the syncify api', ->
   it 'should be a function itself', ->
