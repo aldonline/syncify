@@ -105,11 +105,9 @@ You can literally do anything. ***Syncify allows you to escape from Callback Hel
 
 Well. To be honest. You cannot do just **anything**. ***You cannot use Syncify to deal with functions that mutate application state***. That means you can exclusively use it with read-only functions.
 
-While this sounds like a limitation, in practice it is not. Syncify is much better at composing queries ( functions that fetch data and draw the UI ) while [Async.js](https://github.com/caolan/async) is better at composing business logic. You can combine them.
+If this sounds like a limitation to you then I suggest you stop and think about the following: If the portion of your code that mutates state depends on a set of mutually-dependent async calls your application may be open to race conditions. My personal recommendation is to avoid all async code within transactional operations unless you know what you are doing.
 
-##
-
-To compensate for this limitation, Syncify has grown some cool tricks. For example, transparent concurrency.
+Syncify is designed to make your life easier when building UIs and reading data. And if you still want to write your business logic by composing async transactions ( at the expense of integrity ) then maybe [Async.js](https://github.com/caolan/async) is a better tool for the job.
 
 ## Concurrency
 
