@@ -1,3 +1,7 @@
+**Note: This project is no longer maintained. It has been [merged into Radioactive JS](https://github.com/radioactive/radioactive).**
+
+---
+
 # Syncify.js
 
 Syncify is an innovative alternative to [Async.js](https://github.com/caolan/async), [Step](https://github.com/creationix/step) and [Node Fibers](https://github.com/laverdet/node-fibers). It allows you to deal with "Callback Hell" in a very simple way.
