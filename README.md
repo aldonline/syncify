@@ -1,5 +1,4 @@
-**Note: This project is no longer maintained. It has been [merged into Radioactive JS](https://github.com/radioactive/radioactive).**
-
+**This project is no longer maintained. It has been [merged into Radioactive JS](https://github.com/radioactive/radioactive).**
 ---
 
 # Syncify.js
